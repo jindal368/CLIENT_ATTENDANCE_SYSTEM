@@ -88,5 +88,6 @@ window.env = {
   "BREAKPAD_DUMP_LOCATION": "/home/Vi.jindal/.config/Code/exthost Crash Reports",
   "INIT_CWD": "/home/Vi.jindal/Projects/finalYear/project_mern_memories/client",
   "EDITOR": "vi",
-  "GOOGLE_CLIENT_ID": "808231987741-2uiosl64pfgohakp773csl9ul43fct2i.apps.googleusercontent.com"
+  "GOOGLE_CLIENT_ID": "808231987741-2uiosl64pfgohakp773csl9ul43fct2i.apps.googleusercontent.com",
+  "DOMAIN_ADDRESS": "http://localhost:8000"
 };
