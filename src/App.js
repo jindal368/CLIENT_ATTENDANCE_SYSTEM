@@ -17,13 +17,15 @@ const App = () => {
       <Navbar />
       <Switch>
       {
-        userType.authData === null ? 
+        userType?.authData === null ? 
         <Route path="/" exact component={() => <Redirect to="/auth" />} />:(
          userType?.authData?.result?.email==="vishesh.jindal.cs.2018@miet.ac.in" 
           ?
          <Route path="/" exact component={() => <Redirect to="/faculty" />} />
           : 
-        <Route path="/" exact component={() => <Redirect to="/student" />} />)}
+        <Route path="/" exact component={() => <Redirect to="/student" />} />)
+      }
+     
       
          <Route path="/student" exact component={Student} />
          <Route path="/faculty" exact component={Faculty} />

@@ -4,13 +4,17 @@ import useStyles from './styles'
 
 import {useHistory ,Redirect} from 'react-router-dom'
 import {useSelector} from 'react-redux'
-export default function Student() {
+export default function Faculty() {
     const classes = useStyles()
     const user = useSelector((state)=>state.auth)
     
     return (
       user.authData === null ?
       <Redirect to="/auth"/>
+      :
+      user?.authData?.result?.email !== "vishesh.jindal.cs.2018@miet.ac.in" ?
+      
+      <Redirect to="/student"/>
       :
         <div>
              <AppBar className={classes.brandContainer} position="static" color="inherit">

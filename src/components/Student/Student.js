@@ -12,6 +12,10 @@ export default function Student() {
       user.authData === null ?
       <Redirect to="/auth"/>
       :
+      user?.authData?.result?.email==="vishesh.jindal.cs.2018@miet.ac.in" ?
+      
+      <Redirect to="/faculty"/>
+      :
         <div>
              <AppBar className={classes.brandContainer} position="static" color="inherit">
        <div className={classes.brandContainer}>
