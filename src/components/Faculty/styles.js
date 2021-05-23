@@ -59,4 +59,21 @@ export default makeStyles((theme) => ({
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
+  root: {
+    display:'flexbox',
+    alignItems: 'center',
+    marginLeft: '25%',
+    marginRight:'25%'
+  },
+  
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
 }));
