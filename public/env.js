@@ -6,7 +6,7 @@ window.env = {
   "npm_config_user_agent": "npm/7.12.0 node/v16.1.0 linux x64 workspaces/false",
   "TEXTDOMAIN": "im-config",
   "XDG_SEAT": "seat0",
-  "SSH_AGENT_PID": "2084",
+  "SSH_AGENT_PID": "1943",
   "XDG_SESSION_TYPE": "x11",
   "GIT_ASKPASS": "/usr/share/code/resources/app/extensions/git/dist/askpass.sh",
   "npm_node_execpath": "/home/Vi.jindal/.nvm/versions/node/v16.1.0/bin/node",
@@ -29,7 +29,7 @@ window.env = {
   "npm_config_userconfig": "/home/Vi.jindal/.npmrc",
   "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1002/bus",
   "COLORTERM": "truecolor",
-  "GIO_LAUNCHED_DESKTOP_FILE_PID": "3327",
+  "GIO_LAUNCHED_DESKTOP_FILE_PID": "2654",
   "COLOR": "1",
   "NVM_DIR": "/home/Vi.jindal/.nvm",
   "npm_config_metrics_registry": "https://registry.npmjs.org/",
@@ -46,7 +46,7 @@ window.env = {
   "WINDOWPATH": "2",
   "npm_config_node_gyp": "/home/Vi.jindal/.nvm/versions/node/v16.1.0/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js",
   "PATH": "/home/Vi.jindal/Projects/finalYear/smart_attendance_system/client/node_modules/.bin:/home/Vi.jindal/Projects/finalYear/smart_attendance_system/node_modules/.bin:/home/Vi.jindal/Projects/finalYear/node_modules/.bin:/home/Vi.jindal/Projects/node_modules/.bin:/home/Vi.jindal/node_modules/.bin:/home/node_modules/.bin:/node_modules/.bin:/home/Vi.jindal/.nvm/versions/node/v16.1.0/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/home/Vi.jindal/.nvm/versions/node/v16.1.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
-  "SESSION_MANAGER": "local/GSG1PM-GI0405:@/tmp/.ICE-unix/1989,unix/GSG1PM-GI0405:/tmp/.ICE-unix/1989",
+  "SESSION_MANAGER": "local/GSG1PM-GI0405:@/tmp/.ICE-unix/1848,unix/GSG1PM-GI0405:/tmp/.ICE-unix/1848",
   "NODE": "/home/Vi.jindal/.nvm/versions/node/v16.1.0/bin/node",
   "npm_package_name": "mern-stack-client",
   "XDG_MENU_PREFIX": "gnome-",
@@ -89,5 +89,5 @@ window.env = {
   "INIT_CWD": "/home/Vi.jindal/Projects/finalYear/smart_attendance_system/client",
   "EDITOR": "vi",
   "GOOGLE_CLIENT_ID": "808231987741-2uiosl64pfgohakp773csl9ul43fct2i.apps.googleusercontent.com",
-  "DOMAIN_ADDRESS": "http://localhost:8000"
+  "DOMAIN_ADDRESS": "http://localhost:9010"
 };

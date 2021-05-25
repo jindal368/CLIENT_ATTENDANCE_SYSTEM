@@ -11,6 +11,7 @@ import Auth from './components/Auth/Auth';
 const App = () => {
   const userType = useSelector((state)=> state.auth);
   console.log("UserType : ",userType)
+  var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
   return (
   <BrowserRouter>
     <Container maxWidth="xl">
@@ -19,7 +20,7 @@ const App = () => {
       {
         userType?.authData === null ? 
         <Route path="/" exact component={() => <Redirect to="/auth" />} />:(
-         userType?.authData?.result?.email==="vishesh.jindal.cs.2018@miet.ac.in" 
+         userType?.authData?.result?.email==="visheshjindal368@gmail.com" 
           ?
          <Route path="/" exact component={() => <Redirect to="/faculty" />} />
           : 

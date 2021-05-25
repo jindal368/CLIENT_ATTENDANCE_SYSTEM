@@ -3,11 +3,18 @@ import { AppBar, Typography, Toolbar, Avatar, Button, TextField } from '@materia
 import useStyles from './styles'
 import QrReader from 'react-qr-scanner'
 import {useHistory ,Redirect} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import {updateStudent} from '../../actions/attendance'
+import {useSelector , useDispatch} from 'react-redux'
 export default function Student() {
   const [scanned , setScanned] = useState(0);
+  const [id , setId] = useState('');
     const classes = useStyles()
+    const dispatch  = useDispatch();
     const user = useSelector((state)=>state.auth)
+    const data = {
+      _id : id,
+      data : user?.authData?.result
+    }
     const handleScan = () =>{
        if(!scanned) return <div/>
        if(scanned ===1){
@@ -25,13 +32,25 @@ export default function Student() {
        )
       }
     }
+    
     var handleResponse = (res) =>{
       console.log("response : ",res)
+      const data = {
+        _id : res?.text,
+        data : user?.authData?.result
+      }
         return(
           res?.text ?
           <div>
              <div style={{color:'green'}}>
-               Successfully scanned..
+             {console.log("Data After sacn : ",data)}
+              { dispatch(updateStudent(data))
+              .then(() =>{
+                setScanned(1)
+              })
+              .catch((err) =>{
+                setScanned(2);
+              })}
               </div>
               <AppBar className={classes.brandContainer} position="static" color="inherit">
                 {res}
@@ -52,7 +71,7 @@ export default function Student() {
       user.authData === null ?
       <Redirect to="/auth"/>
       :
-      user?.authData?.result?.email==="vishesh.jindal.cs.2018@miet.ac.in" ?
+      user?.authData?.result?.email==="visheshjindal368@gmail.com"  ?
       
       <Redirect to="/faculty"/>
       :
@@ -63,14 +82,13 @@ export default function Student() {
       </div>
       <div>
         <QrReader
-          delay={1000}
+          delay={10000}
           style={previewStyle}
           onError={() => setScanned(2)}
           onScan={(res) => handleResponse(res)}
           />
-        
       </div>
-      {handleResponse()}
+      {handleScan()}
       </AppBar>
         </div>
     )
