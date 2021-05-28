@@ -7,6 +7,7 @@ import {updateStudent} from '../../actions/attendance'
 import {useSelector , useDispatch} from 'react-redux'
 export default function Student() {
   const [scanned , setScanned] = useState(0);
+  const [openScanner  , setOpenScanner] = useState(false);
   const [id , setId] = useState('');
     const classes = useStyles()
     const dispatch  = useDispatch();
@@ -18,6 +19,7 @@ export default function Student() {
     const handleScan = () =>{
        if(!scanned) return <div/>
        if(scanned ===1){
+        
        return (
        <div style={{color:'green'}}>
        Successfully scanned..
@@ -47,6 +49,7 @@ export default function Student() {
               { dispatch(updateStudent(data))
               .then(() =>{
                 setScanned(1)
+               
               })
               .catch((err) =>{
                 setScanned(2);
@@ -81,6 +84,13 @@ export default function Student() {
         <Typography  className={classes.heading} variant="h2" align="center">Student Portal</Typography>
       </div>
       <div>
+        <Button style={{color : 'red'}} onClick={() =>setOpenScanner(!openScanner)}>{!openScanner ?"Open Scanner To Scan": "Close Scanner"}</Button>
+      </div>
+      {scanned===1?
+        handleScan()
+        :
+        openScanner ?
+      <div>
         <QrReader
           delay={10000}
           style={previewStyle}
@@ -88,7 +98,9 @@ export default function Student() {
           onScan={(res) => handleResponse(res)}
           />
       </div>
-      {handleScan()}
+      :
+      <div/>
+      } 
       </AppBar>
         </div>
     )

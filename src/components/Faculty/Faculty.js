@@ -24,14 +24,17 @@ export default function Faculty() {
   var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
     const classes = useStyles()
     
-    const handleSubmit = () =>{
+    const handleSubmit = (e) =>{
+         e.preventDefault();
          dispatch(postattendancedata(attendanceData))
          .then((res) =>{
            console.log("data dispatched : ",res)
+          
          })
          .catch((err) =>{
            console.log("Error : ",err);
          })
+         setQrComponent(!qrComponent)
     }
 
     
@@ -93,7 +96,7 @@ export default function Faculty() {
     const qrCodeManager = () =>{
 
        return  qrComponent ? 
-       <form onSubmit={handleSubmit} className={classes.form} style={{justifyContent:'center'}}>
+       <form onSubmit={(e) =>handleSubmit(e)} className={classes.form} style={{justifyContent:'center'}}>
                 <TextField value={attendanceData.email} label="email" type="email"/><br/>
                 <TextField type="text"label="Subject"   onChange={(e) => setAttendanceData({...attendanceData, subject: e.target.value})}/><br/>
                 <Button type="submit"fullWidth variant="contained" color="primary">
