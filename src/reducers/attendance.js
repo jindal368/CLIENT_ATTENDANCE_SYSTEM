@@ -6,9 +6,13 @@ const authReducer = (state = [], action) => {
       return { ...state, state: action.payload.data };
 
     case actionType.GET_STUDENT:
+      
+        return  state.unshift(action.data.data)
+    case actionType.RESET_STUDENT:
         
-        return {...state , state :state.push(action.data.data)}
-    
+        return [];
+    case actionType.UPDATE_STUDENT :
+       return []
     default:
       return state;
   }
