@@ -1,12 +1,13 @@
 import React ,{useState , useEffect}from 'react'
-import { AppBar, Typography, Toolbar, Avatar, Button, TextField, Card , CardContent , CardActions, Paper } from '@material-ui/core';
-
+import { AppBar, Typography, Toolbar, Avatar, Button, TextField, Card ,variant, CardContent , CardActions, Paper , CardMedia } from '@material-ui/core';
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import  '../../../node_modules/bootstrap/dist/js/bootstrap.js';
 import useStyles from './styles'
 import QrCodeGenerator from '../util/QrCodeGenerator'
 import {useHistory ,Redirect} from 'react-router-dom'
 import QRCode from 'qrcode.react'
 import {useSelector , useDispatch} from 'react-redux'
-import {postattendancedata , getStudentData} from '../../actions/attendance'
+import {postattendancedata , getStudentData , resetStudent} from '../../actions/attendance'
 export default function Faculty() {
   const [qrComponent , setQrComponent] = useState(false);
   const [resultArray , setResultArray] = useState([])
@@ -20,21 +21,26 @@ export default function Faculty() {
      email : user?.authData?.result?.email
   })
   const dispatch = useDispatch();
+  var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
     const classes = useStyles()
     
-    const handleSubmit = () =>{
+    const handleSubmit = (e) =>{
+         e.preventDefault();
          dispatch(postattendancedata(attendanceData))
          .then((res) =>{
            console.log("data dispatched : ",res)
+          
          })
          .catch((err) =>{
            console.log("Error : ",err);
          })
+         setQrComponent(!qrComponent)
     }
 
     
     const fetchData = () => {
-      dispatch(getStudentData(user?.authData?.result?.email))
+      
+      dispatch(getStudentData( user?.authData?.result?.email))
       .then((res) =>{
         console.log("Response : ",attendanceFetchedData[0])
         setResultArray(attendanceFetchedData[0])
@@ -45,32 +51,65 @@ export default function Faculty() {
       })
 
     }
-    var displayData = (resultArray) =>{
+    const displayData = (resultArray) =>{
       if(!resultArray?.length) return "No Data"
 
      return  resultArray?.map((data) =>(
-                   <>
-                   <Typography  className={classes.heading} variant="h2" align="center">
-                        {data.email}
-                   </Typography>
-                   <Typography  className={classes.heading} variant="h2" align="center">
-                   {data.subject}
-                   </Typography>
-                   <Typography  className={classes.heading} variant="h2" align="center">
-                    
-                    </Typography>
-                    </>
+                   <div>
+                     
+                   <Card className={classes.root}>
+               <CardContent>
+                <QrCodeGenerator value={data._id}/>
+                <br/> 
+               <Typography color="red" gutterBottom>
+                   Date : {new Date(data.date).toLocaleString('en-US')}
+                 </Typography>
+                 <Typography color="red" gutterBottom>
+                   Subject : {data.subject}
+                 </Typography>
+                 <Typography>
+                   
+                   Student Availed Attendance : {!data.students?.length ? `No Student Availed Yet`: data.students.map((student , key) => (
+                     <Typography key={key} >
+                         <variant >{`${key}`}</variant>
+                       <Avatar src={student.imageUrl} alt={student.name}/>
+                       <variant >{`${student.name}`}</variant>
+                       </Typography>
+                   ))}
+                 </Typography>
+               </CardContent>
+                  <CardActions>
+                    <Button size="medium" style={{color : 'blue'}}>Import As CSV</Button>
+                  </CardActions>
+                <br/>
+              </Card>
+              <hr/>
+                    </div>
                  ))
     }
+     const clearResultArray = () =>{
+      
+       setResultArray([])
+       dispatch(resetStudent())
+     }
 
     const qrCodeManager = () =>{
-       return  qrComponent ? <QrCodeGenerator/>:<div/>
+
+       return  qrComponent ? 
+       <form onSubmit={(e) =>handleSubmit(e)} className={classes.form} style={{justifyContent:'center'}}>
+                <TextField value={attendanceData.email} label="email" type="email"/><br/>
+                <TextField type="text"label="Subject"   onChange={(e) => setAttendanceData({...attendanceData, subject: e.target.value})}/><br/>
+                <Button type="submit"fullWidth variant="contained" color="primary">
+                  Submit & Generate
+                </Button>
+              </form>
+       :<div/>
     }
     return (
       user.authData === null ?
       <Redirect to="/auth"/>
       :
-      user?.authData?.result?.email !== "vishesh.jindal.cs.2018@miet.ac.in" ?
+      user?.authData?.result?.email !== "visheshjindal368@gmail.com"  ?
       
       <Redirect to="/student"/>
       :
@@ -102,15 +141,18 @@ export default function Faculty() {
                <br/><br/> <br/>
                <Card className={classes.root}>
                <CardContent>
-                 <Typography className={classes.heading} color="textSecondary" gutterBottom>
+                 <Typography className={classes.heading} color="textPrimary" gutterBottom>
                    See Detailed report of All the students
                  </Typography>
-                 <Button onClick={fetchData}>Fetch Data</Button>
-                 {displayData(resultArray)}
-                 
-                 <Typography>
+                 {resultArray?.length ? 
+                   <div/>:
+                   <Button onClick={fetchData} style={{color:'red'}}>Fetch Data</Button>
+                  }
+                 <Typography className={classes.heading}>
                    History of Attendance
                  </Typography>
+                 {displayData(resultArray)}
+                 {resultArray?.length ? <Button onClick={clearResultArray}>Clear</Button> : <div/>}
                </CardContent>
                   <CardActions>
                     <Button size="medium" style={{color : 'green'}} >History</Button>
@@ -119,13 +161,7 @@ export default function Faculty() {
               </Card>
               <br/>
 
-              <form onSubmit={handleSubmit} className={classes.form}>
-                <TextField type="text"label="Subject"   onChange={(e) => setAttendanceData({...attendanceData, subject: e.target.value})}/>
-                <TextField value={attendanceData.email} label="email" type="email"/>
-                <Button type="submit"fullWidth variant="contained" color="primary">
-                  Submit & Generate
-                </Button>
-              </form>
+              
         </>
 
     )
