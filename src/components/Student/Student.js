@@ -74,7 +74,7 @@ export default function Student() {
       user.authData === null ?
       <Redirect to="/auth"/>
       :
-      user?.authData?.result?.email==="visheshjindal368@gmail.com"  ?
+      user?.authData?.result?.email==="vipul.sharma.cs.2018@miet.ac.in"  ?
       
       <Redirect to="/faculty"/>
       :

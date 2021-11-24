@@ -3,22 +3,25 @@ import { deepPurple } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   appBar: {
-    borderRadius: 15,
-    margin: '30px 0',
+    borderRadius: '0 0 20px 20px',
+    margin: '30px 0 0',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px 50px',
+    backgroundColor: 'rgba(0,0,171,1)',
     [theme.breakpoints.down('sm')]: {
       flexWrap: 'wrap',
       flexDirection: 'column',
     },
   },
   heading: {
-    color: 'rgba(0,183,255, 1)',
+    color: 'rgba(255,255,255, 1)',
     textDecoration: 'none',
-    fontSize: '2em',
+    fontSize: '1.8em',
+    fontWeight: '400',
+    
   },
   image: {
     marginLeft: '15px',
@@ -50,6 +53,8 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     textAlign: 'center',
+    color: 'white',
+    fontWeight: '400',
   },
   brandContainer: {
     display: 'flex',

@@ -1,7 +1,5 @@
 import React ,{useState , useEffect}from 'react'
 import { AppBar, Typography, Toolbar, Avatar, Button, TextField, Card ,variant, CardContent , CardActions, Paper , CardMedia } from '@material-ui/core';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import  '../../../node_modules/bootstrap/dist/js/bootstrap.js';
 import useStyles from './styles'
 import QrCodeGenerator from '../util/QrCodeGenerator'
 import {useHistory ,Redirect} from 'react-router-dom'
@@ -109,14 +107,14 @@ export default function Faculty() {
       user.authData === null ?
       <Redirect to="/auth"/>
       :
-      user?.authData?.result?.email !== "visheshjindal368@gmail.com"  ?
+      user?.authData?.result?.email !== "vipul.sharma.cs.2018@miet.ac.in"  ?
       
       <Redirect to="/student"/>
       :
         <>
              <AppBar className={classes.brandContainer} position="static" color="inherit">
               <div className={classes.brandContainer}>
-              <Typography  className={classes.heading} variant="h2" align="center">Faculty Portal</Typography>
+              <Typography  className={classes.heading+' '+classes.head} variant="h2" align="center">Faculty Portal</Typography>
              </div>
              </AppBar>
              <br/><br/>
@@ -160,7 +158,6 @@ export default function Faculty() {
                 <br/>
               </Card>
               <br/>
-
               
         </>
 

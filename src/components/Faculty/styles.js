@@ -20,6 +20,7 @@ export default makeStyles((theme) => ({
     textDecoration: 'none',
     fontSize: '2em',
   },
+
   image: {
     marginLeft: '15px',
   },
@@ -75,5 +76,13 @@ export default makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+  },
+
+  head: {
+    display: 'flex',
+    flexDirection:'column',
+    height: '60px',
+    justifyContent: 'center',
+    backgroundColor: 'rgb(250 250 245)'
   },
 }));
