@@ -12,7 +12,10 @@ const authReducer = (state = [], action) => {
         
         return [];
     case actionType.UPDATE_STUDENT :
-       return []
+       return [];
+    case actionType.GET_ATTENDANCE:
+      
+        return state.unshift(action.data.data)
     default:
       return state;
   }

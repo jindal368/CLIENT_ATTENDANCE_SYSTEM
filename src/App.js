@@ -6,7 +6,6 @@ import Faculty from './components/Faculty/Faculty'
 import {useSelector} from 'react-redux'
 import Navbar from './components/Navbar/Navbar';
 import Auth from './components/Auth/Auth';
-import classes from './App.module.css';
 
 
 const App = () => {
@@ -15,7 +14,7 @@ const App = () => {
   var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
   return (
   <BrowserRouter>
-    <Container maxWidth="xl" className={classes.contain} style={{padding:'0',width:'95%'}}>
+    <Container maxWidth="xl" style={{padding:'0',width:'95%'}}>
       
       <Navbar />
       <Switch>
@@ -29,10 +28,11 @@ const App = () => {
         <Route path="/" exact component={() => <Redirect to="/student" />} />)
       }
      
-      
+        <Route path="/auth" exact component={Auth} />
+     {/* <div className={classes.back}> */}
          <Route path="/student" exact component={Student} />
          <Route path="/faculty" exact component={Faculty} />
-        <Route path="/auth" exact component={Auth} />
+      {/* </div> */}
       </Switch>
     </Container>
   </BrowserRouter>

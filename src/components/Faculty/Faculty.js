@@ -1,26 +1,41 @@
 import React ,{useState , useEffect}from 'react'
-import { AppBar, Typography, Toolbar, Avatar, Button, TextField, Card ,variant, CardContent , CardActions, Paper , CardMedia } from '@material-ui/core';
+import { AppBar, Typography, Toolbar, Avatar, Button, Card, TextField,variant, CardContent , CardActions, CardActionArea, Paper , CardMedia, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import useStyles from './styles'
 import QrCodeGenerator from '../util/QrCodeGenerator'
 import {useHistory ,Redirect} from 'react-router-dom'
 import QRCode from 'qrcode.react'
+import qrImage from '../../images/qrcode.png';
+import report from '../../images/report.png';
 import {useSelector , useDispatch} from 'react-redux'
-import {postattendancedata , getStudentData , resetStudent} from '../../actions/attendance'
+import {postattendancedata , getAttendanceData , resetStudent} from '../../actions/attendance'
+import * as api from '../../api/index.js';
+
+
 export default function Faculty() {
   const [qrComponent , setQrComponent] = useState(false);
   const [resultArray , setResultArray] = useState([])
   useEffect(() => {
     displayData(resultArray)
   })
+  
   const user = useSelector((state)=>state.auth)
   const attendanceFetchedData = useSelector((state) => state.attendance)
-  const [attendanceData  , setAttendanceData] = useState({
-     subject : '',
-     email : user?.authData?.result?.email
-  })
+
+  const [attendanceData  , setAttendanceData] = useState({});
+  const [detail,setDetail] = useState({});
   const dispatch = useDispatch();
   var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
     const classes = useStyles()
+
+    useEffect(()=>{
+      api.detail(attendanceData)
+        .then((data) =>{
+          return setDetail(data);
+        })
+        .catch((err) =>{
+          return ;
+        })
+    },[attendanceData]);
     
     const handleSubmit = (e) =>{
          e.preventDefault();
@@ -34,15 +49,12 @@ export default function Faculty() {
          })
          setQrComponent(!qrComponent)
     }
-
-    
     const fetchData = () => {
       
-      dispatch(getStudentData( user?.authData?.result?.email))
+      dispatch(getAttendanceData( user?.authData?.result?.email))
       .then((res) =>{
         console.log("Response : ",attendanceFetchedData[0])
         setResultArray(attendanceFetchedData[0])
-     
       })
       .catch((err) =>{
         console.log("Error : ",err);
@@ -89,20 +101,94 @@ export default function Faculty() {
       
        setResultArray([])
        dispatch(resetStudent())
-     }
-
+    }
     const qrCodeManager = () =>{
 
-       return  qrComponent ? 
-       <form onSubmit={(e) =>handleSubmit(e)} className={classes.form} style={{justifyContent:'center'}}>
-                <TextField value={attendanceData.email} label="email" type="email"/><br/>
-                <TextField type="text"label="Subject"   onChange={(e) => setAttendanceData({...attendanceData, subject: e.target.value})}/><br/>
-                <Button type="submit"fullWidth variant="contained" color="primary">
-                  Submit & Generate
+      return qrComponent ?
+        <form onSubmit={(e) =>handleSubmit(e)} className={classes.form} style={{justifyContent:'center'}}>
+               <Typography gutterBottom variant="h4" component="h2">DETAIL</Typography>
+               <TextField value={user?.authData?.result?.email} type="hidden"/><br/>
+               <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">Course</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined"
+                    value={attendanceData.course}
+                    onChange={(e) => setAttendanceData({...attendanceData, course: e.target.value})}
+                    label="Course"
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
+                    {detail?.course?.map((data,index)=>{
+                      return <MenuItem value={data} key={data+index}>{data}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">Year</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined"
+                    value={attendanceData.year}
+                    onChange={(e) => setAttendanceData({...attendanceData, year: e.target.value})}
+                    label="year"
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
+                    {detail?.year?.map((data,index)=>{
+                      return <MenuItem value={data} key={data+index}>{data}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">Semester</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined"
+                    value={attendanceData.semester}
+                    onChange={(e) => setAttendanceData({...attendanceData, semester: e.target.value})}
+                    label="semester"
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
+                    {attendanceData.year?<div><MenuItem value={2*(attendanceData.year)-1} >{2*(attendanceData.year)-1}</MenuItem>
+                    <MenuItem value={2*(attendanceData.year)} >{2*(attendanceData.year)}</MenuItem></div>:null}
+                    
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">Section</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined"
+                    value={attendanceData.section}
+                    onChange={(e) => setAttendanceData({...attendanceData, section: e.target.value})}
+                    label="section"
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
+                    {detail?.section?.map((data,index)=>{
+                      return <MenuItem value={data} key={data+index}>{data}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-outlined-label">Subject</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined"
+                    value={attendanceData.subject}
+                    onChange={(e) => setAttendanceData({...attendanceData, subject: e.target.value})}
+                    label="subject"
+                  >
+                    <MenuItem value=""><em>None</em></MenuItem>
+                    {detail?.subject?.map((data,index)=>{
+                      return <MenuItem value={data} key={data+index}>{data}</MenuItem>;
+                    })}
+                  </Select>
+                </FormControl>
+                <Button variant="contained" color="secondary" style={{marginTop:'10px'}}>
+                  Submit and Generate
                 </Button>
-              </form>
-       :<div/>
+        </form>
+        :<div/>
     }
+    const showQrCode = () =>{
+
+    }
+
+
     return (
       user.authData === null ?
       <Redirect to="/auth"/>
@@ -112,31 +198,63 @@ export default function Faculty() {
       <Redirect to="/student"/>
       :
         <>
+            {/* <Modal isOpen={isOpen} modalClosed={modalClosed} qrCodeManager={qrCodeManager()}>
+            </Modal> */}
              <AppBar className={classes.brandContainer} position="static" color="inherit">
               <div className={classes.brandContainer}>
-              <Typography  className={classes.heading+' '+classes.head} variant="h2" align="center">Faculty Portal</Typography>
+              <Typography  className={classes.heading+' '+classes.head} variant="h2" align="center">FACULTY PORTAL</Typography>
              </div>
              </AppBar>
              <br/><br/>
-             <Card className={classes.root}>
-               <CardContent>
-                 <Typography className={classes.heading} color="textSecondary" gutterBottom>
-                   Generate a QR Code by clicking Generate
-                 </Typography>
-                 <Typography>
-                   Kindly share With Students
-                 </Typography>
-               </CardContent>
-                  <CardActions>
-                    <Button size="medium" style={{color : 'green'}} onClick={() =>setQrComponent(!qrComponent)}>{qrComponent ? "Reset Code" : "Generate Code"}</Button>
-                  </CardActions>
-                <br/>
-              </Card>
-   
-              <Paper className={classes.root} style={{alignItems:'center'}} square>
-               {qrCodeManager()}
-               </Paper>
-               <br/><br/> <br/>
+
+              <div className= {classes.contain}>
+                <div>
+                  <Card className={classes.root} onClick={() =>setQrComponent(!qrComponent)}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image={qrImage}
+                        title="Contemplative Reptile"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h4" component="h2">
+                          Generate QRCode
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                          Click to generate qrCode for attendance
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                  <Paper className={classes.root} style={{alignItems:'center'}} square>
+                    {qrCodeManager()}
+                  </Paper>
+                  <Paper className={classes.root} style={{alignItems:'center'}} square>
+                    {showQrCode()}
+                  </Paper>
+                </div>
+                <div>
+                  <Card className={classes.root}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image={report}
+                        title="Contemplative Reptile"
+                        style={{backgroundSize:'380px'}}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h4" component="h2">
+                          Student Report
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                          Click to Check the detail of the students
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </div>
+              </div>
+
                <Card className={classes.root}>
                <CardContent>
                  <Typography className={classes.heading} color="textPrimary" gutterBottom>
@@ -158,6 +276,7 @@ export default function Faculty() {
                 <br/>
               </Card>
               <br/>
+              
               
         </>
 

@@ -5,27 +5,20 @@ import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
-export default function ModalBox() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  function toggleModal() {
-    setIsOpen(!isOpen);
-  }
-
+export default function ModalBox(props) {
   return (
     <div className="App">
-      <button onClick={toggleModal}>Open modal</button>
-
       <Modal
-        isOpen={isOpen}
-        onRequestClose={toggleModal}
+        isOpen={props.isOpen}
+        onRequestClose={props.modalClosed}
         contentLabel="My dialog"
         className="mymodal"
         overlayClassName="myoverlay"
         closeTimeoutMS={500}
       >
-        <div>My modal dialog.</div>
-        <button onClick={toggleModal}>Close modal</button>
+        {console.log(props.qrCodeManager)}
+        <div>{props.qrCodeManager}</div>
+        <button onClick={props.modalClosed}>Close modal</button>
       </Modal>
     </div>
   );

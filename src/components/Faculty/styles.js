@@ -16,7 +16,7 @@ export default makeStyles((theme) => ({
     },
   },
   heading: {
-    color: 'rgba(0,183,255, 1)',
+    color: 'rgba(0,0,171, 1)',
     textDecoration: 'none',
     fontSize: '2em',
   },
@@ -55,17 +55,19 @@ export default makeStyles((theme) => ({
   brandContainer: {
     display: 'flex',
     alignItems: 'center',
+    borderRadius: '0 0 15px 15px',
+    backgroundColor: 'aliceblue',
   },
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
-  root: {
-    display:'flexbox',
-    alignItems: 'center',
-    marginLeft: '25%',
-    marginRight:'25%'
-  },
+  // root: {
+  //   display:'flexbox',
+  //   alignItems: 'center',
+  //   marginLeft: '25%',
+  //   marginRight:'25%'
+  // },
   
   title: {
     fontSize: 14,
@@ -76,6 +78,11 @@ export default makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+    display : 'flex',
+    flexWrap : 'wrap',
+    flexDirection: 'column',
+    padding:'20px 0 20px 0',
+    alignItems:'center',
   },
 
   head: {
@@ -83,6 +90,29 @@ export default makeStyles((theme) => ({
     flexDirection:'column',
     height: '60px',
     justifyContent: 'center',
-    backgroundColor: 'rgb(250 250 245)'
+    backgroundColor: 'aliceblue',
+    fontWeight: '500',
   },
+  root: {
+    maxWidth: 345,
+    boxShadow: '0 2px 8px 0',
+    marginBottom: '15px',
+  },
+  media: {
+    height: 250,
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    // minWidth: 120,
+    width:'80%',
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  contain: {
+    display: 'flex',
+    flexDirection:'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  }
 }));
