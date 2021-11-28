@@ -9,10 +9,15 @@
     overflow: auto;
     border-radius: 4px;
     outline: none;
-    padding: 20px;
-    width: 300px;
+    padding: 0px;
     min-height: 400px;
+    padding-bottom: 10px;
   }
+  @media (max-width: 600px) {
+    .mymodal {
+        width: 80%;
+    }
+}
   
   .myoverlay {
     position: fixed;

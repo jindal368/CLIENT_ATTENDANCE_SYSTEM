@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./styles.css";
 
 import Modal from "react-modal";
+import {Button} from '@material-ui/core';
 
 Modal.setAppElement("#root");
 
@@ -16,9 +17,10 @@ export default function ModalBox(props) {
         overlayClassName="myoverlay"
         closeTimeoutMS={500}
       >
-        {console.log(props.qrCodeManager)}
-        <div>{props.qrCodeManager}</div>
-        <button onClick={props.modalClosed}>Close modal</button>
+        {props.children}
+        <center><Button type="submit" fullWidth onClick={props.modalClosed} variant="contained" color="secondary" style={{width:'85%'}}>
+            Close
+          </Button></center>
       </Modal>
     </div>
   );

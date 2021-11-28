@@ -6,7 +6,7 @@ import Faculty from './components/Faculty/Faculty'
 import {useSelector} from 'react-redux'
 import Navbar from './components/Navbar/Navbar';
 import Auth from './components/Auth/Auth';
-
+import College from './components/component/College';
 
 const App = () => {
   const userType = useSelector((state)=> state.auth);
@@ -18,7 +18,7 @@ const App = () => {
       
       <Navbar />
       <Switch>
-      {
+      {/* {
         userType?.authData === null ? 
         <Route path="/" exact component={() => <Redirect to="/auth" />} />:(
          userType?.authData?.result?.email==="vipul.sharma.cs.2018@miet.ac.in" 
@@ -26,13 +26,11 @@ const App = () => {
          <Route path="/" exact component={() => <Redirect to="/faculty" />} />
           : 
         <Route path="/" exact component={() => <Redirect to="/student" />} />)
-      }
-     
-        <Route path="/auth" exact component={Auth} />
-     {/* <div className={classes.back}> */}
+      } */}
          <Route path="/student" exact component={Student} />
          <Route path="/faculty" exact component={Faculty} />
-      {/* </div> */}
+         <Route path="/auth" exact component={Auth} />
+         <Route path="/" exact component={College} />
       </Switch>
     </Container>
   </BrowserRouter>

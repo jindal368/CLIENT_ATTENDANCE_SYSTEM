@@ -62,12 +62,9 @@ export default makeStyles((theme) => ({
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
-  // root: {
-  //   display:'flexbox',
-  //   alignItems: 'center',
-  //   marginLeft: '25%',
-  //   marginRight:'25%'
-  // },
+  root: {
+    marginTop: '0'
+  },
   
   title: {
     fontSize: 14,
@@ -81,11 +78,11 @@ export default makeStyles((theme) => ({
     display : 'flex',
     flexWrap : 'wrap',
     flexDirection: 'column',
-    padding:'20px 0 20px 0',
+    padding:'20px 0 0 0',
     alignItems:'center',
   },
 
-  head: {
+  top: {
     display: 'flex',
     flexDirection:'column',
     height: '60px',
@@ -96,7 +93,8 @@ export default makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     boxShadow: '0 2px 8px 0',
-    marginBottom: '15px',
+    marginBottom: '30px',
+    marginRight: '30px'
   },
   media: {
     height: 250,
@@ -114,5 +112,23 @@ export default makeStyles((theme) => ({
     flexDirection:'row',
     justifyContent: 'space-around',
     flexWrap: 'wrap',
-  }
+  },
+
+
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+    marginBottom: '15px'
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  head:{
+    fontWeight:'500',
+    width:'50%',
+    fontSize : '20px',
+    height: '64px',
+  },
 }));
