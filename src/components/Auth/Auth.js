@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container, Tabs, Tab ,AppBar} from '@material-ui/core';
 import { useHistory ,Redirect} from 'react-router-dom';
@@ -12,21 +12,22 @@ import useStyles from './styles';
 import Input from './Input';
 
 
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+// const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
 const SignUp = () => {
   const [value, setValue] = React.useState("student");
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState({});
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
    const user = useSelector((state)=> state.auth);
   const [showPassword, setShowPassword] = useState(false);
+  const formRef = useRef();
   const handleShowPassword = () => setShowPassword(!showPassword);
   
   const switchMode = () => {
-    setForm(initialState);
+    setForm({});
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
@@ -62,8 +63,9 @@ const SignUp = () => {
   
   
   const handleChange1 = (event, newValue) => {
+    formRef.current.reset();
     setValue(newValue);
-    setForm(initialState);
+    setForm({});
   };
 
 
@@ -90,7 +92,7 @@ const SignUp = () => {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">{ isSignup ? 'Sign up' : 'Sign in' }</Typography>
-              <form className={classes.form} onSubmit={handleSubmit}>
+              <form className={classes.form} onSubmit={handleSubmit} ref={formRef}>
                 <Grid container spacing={2}>
                   { isSignup && (
                   <>
@@ -115,6 +117,7 @@ const SignUp = () => {
                 <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                   { isSignup ? 'Sign Up' : 'Sign In' }
                 </Button>
+                
                 <GoogleLogin
                   clientId = {env.GOOGLE_CLIENT_ID}
                   render={(renderProps) => (
@@ -128,7 +131,7 @@ const SignUp = () => {
                 />
                 <Grid container justify="center">
                   <Grid item>
-                    <Button onClick={switchMode}>
+                    <Button onClick={switchMode} type="reset">
                       { isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up" }
                     </Button>
                   </Grid>
@@ -143,7 +146,7 @@ const SignUp = () => {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">Sign in</Typography>
-              <form className={classes.form} onSubmit={handleSubmit}>
+              <form className={classes.form} onSubmit={handleSubmit} ref={formRef}>
                 <Grid container spacing={2}>
                   <Input name="email" label="Email Address" handleChange={handleChange} type="email" autoFocus/>
                   <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />

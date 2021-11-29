@@ -18,7 +18,7 @@ const App = () => {
       
       <Navbar />
       <Switch>
-      {/* {
+      {
         userType?.authData === null ? 
         <Route path="/" exact component={() => <Redirect to="/auth" />} />:(
          userType?.authData?.result?.email==="vipul.sharma.cs.2018@miet.ac.in" 
@@ -26,7 +26,7 @@ const App = () => {
          <Route path="/" exact component={() => <Redirect to="/faculty" />} />
           : 
         <Route path="/" exact component={() => <Redirect to="/student" />} />)
-      } */}
+      }
          <Route path="/student" exact component={Student} />
          <Route path="/faculty" exact component={Faculty} />
          <Route path="/auth" exact component={Auth} />

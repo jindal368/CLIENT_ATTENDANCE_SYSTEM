@@ -7,7 +7,7 @@ import Input from '../Auth/Input';
 
 const initialState = { name: '', email: '', mobile: '', password: '', confirmPassword: '',address: '',department: '', collegeId: '' };
 
-const SignUp = () =>{
+const AdminSignup = () =>{
     const [form, setForm] = useState(initialState);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -64,4 +64,4 @@ const SignUp = () =>{
     </Container>
     );
 }
-export default SignUp;
+export default AdminSignup;

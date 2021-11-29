@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
-import BusinessRoundedIcon from '@material-ui/icons/BusinessRounded';
-import { Button, Paper, Grid, Typography, Card, CardContent , CardActionArea, CardMedia, TextField, Chip, MenuItem, FormControl, InputLabel, Select} from '@material-ui/core';
+import { Button, Paper, Typography, Card, CardContent , CardActionArea, CardMedia, TextField, MenuItem, FormControl, InputLabel, Select} from '@material-ui/core';
 import useStyles from './styles';
-import Input from '../Auth/Input';
 import ReactCardFlip from 'react-card-flip';
 import qrImage from '../../images/qrcode.png';
 
 
-const initialState = {email: ''};
-const top100Films = [];
+// const initialState = {email: ''};
   
 
-const SignUp = () =>{
-    const [form, setForm] = useState(initialState);
+const QrCodeGenerate = () =>{
+    const [form, setForm] = useState({});
     const [detail,setDetail] = useState([]);
     const [attendanceData  , setAttendanceData] = useState({});
     const user = useSelector((state)=>state.auth)
@@ -36,22 +33,22 @@ const SignUp = () =>{
 
         // const fetchData = () => {
       
-            //   dispatch(getAttendanceData( user?.authData?.result?.email))
-            //   .then((res) =>{
-            //     console.log("Response : ",attendanceFetchedData[0])
-            //     setResultArray(attendanceFetchedData[0])
-            //   })
-            //   .catch((err) =>{
-            //     console.log("Error : ",err);
-            //   })
+        //       dispatch(getAttendanceData( user?.authData?.result?.email))
+        //       .then((res) =>{
+        //         console.log("Response : ",attendanceFetchedData[0])
+        //         setResultArray(attendanceFetchedData[0])
+        //       })
+        //       .catch((err) =>{
+        //         console.log("Error : ",err);
+        //       })
         
-            // }
+        //     }
 
 
     // const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const fliphandler = () =>{
-        setForm(initialState);
+        setForm({});
         setIsFlip(!isFlip);
     }
 
@@ -76,7 +73,7 @@ const SignUp = () =>{
                     </CardActionArea>
                   </Card>
             {/* <Container component="main" maxWidth="xs"> */}
-                <Paper className={classes.paper} elevation={3} style={{width:'360px'}}>
+                <Paper className={classes.paper} elevation={3} >
                     <Typography variant="h4" component="h1">Generate QRCode</Typography>
                     <form  className={classes.form} style={{justifyContent:'center'}} style={{marginTop:'0'}}>
                         <TextField value={user?.authData?.result?.email} type="hidden"/><br/>
@@ -153,7 +150,7 @@ const SignUp = () =>{
                         <Button variant="contained" color="primary" style={{marginTop:'10px'}}>
                             Submit and Generate
                         </Button>
-                        <Button variant="contained" color="Secondary" className={classes.submit} style={{width:'204px'}} onClick={fliphandler} >
+                        <Button variant="contained" type='reset' color="Secondary" className={classes.submit} style={{width:'204px'}} onClick={fliphandler} >
                             Cancel
                     </Button>
                     </form>
@@ -162,4 +159,4 @@ const SignUp = () =>{
         </ReactCardFlip>
     );
 }
-export default SignUp;
+export default QrCodeGenerate;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import BusinessRoundedIcon from '@material-ui/icons/BusinessRounded';
 import { Button, Paper, Grid, Typography, Container, Tabs, Tab , AppBar, Card, CardContent , CardActionArea, CardMedia} from '@material-ui/core';
@@ -7,14 +7,15 @@ import ReactCardFlip from 'react-card-flip';
 import Input from '../Auth/Input';
 import facultyImage from '../../images/faculty.png';
 
-const initialState = { name: '', email: '', mobile: '', password: '', confirmPassword: '',address: '',department: '', collegeId: '' };
+// const initialState = { name: '', email: '', mobile: '', password: '', confirmPassword: '',address: '',department: '', collegeId: '' };
 
-const SignUp = () =>{
-    const [form, setForm] = useState(initialState);
+const FacultySignup = () =>{
+    const [form, setForm] = useState({});
     const [showPassword, setShowPassword] = useState(false);
     const [value, setValue] = useState("signup");
     const [isFlip, setIsFlip] = useState(false);
     const classes = useStyles();    
+    const formRef = useRef();
     const dispatch = useDispatch();
 
 
@@ -32,11 +33,12 @@ const SignUp = () =>{
     const handleShowPassword = () => setShowPassword(!showPassword);
 
     const handleChange1 = (event, newValue) => {
+      formRef.current.reset();
       setValue(newValue);
-      setForm(initialState);
+      setForm({});
     };
     const fliphandler = () =>{
-      setForm(initialState);
+      setForm({});
       setIsFlip(!isFlip);
   }
 
@@ -62,7 +64,7 @@ const SignUp = () =>{
             </Card>
       <div>
         {/* <Container component="main" maxWidth="xs"> */}
-            <AppBar position="static" style={{width:'391px'}}>
+            <AppBar position="static" style={{width:'360px'}}>
                 <Tabs value={value} onChange={handleChange1} aria-label="simple tabs example">
                   <Tab label="Signup" value={'signup'} className={classes.head} />
                   <Tab label="Remove" value={'remove'} className={classes.head} />
@@ -71,23 +73,23 @@ const SignUp = () =>{
         {/* </Container> */}
         {value=='signup'?
           // <Container component="main" maxWidth="xs">
-            <Paper className={classes.paper} elevation={3} style={{width:'360px'}} >
+            <Paper className={classes.paper} elevation={3} >
               <BusinessRoundedIcon color='primary' style={{fontSize:'60px'}} />
               <Typography component="h1" variant="h5">Faculty SignUp</Typography>
-              <form className={classes.form} >
+              <form className={classes.form} ref={formRef}>
                 <Grid container spacing={2}>
                   <Input name="name" label="Name" handleChange={handleChange} autoFocus/>
                   <Input name="email" label="Email" handleChange={handleChange} type="email" />
                   <Input name="mobile" label="Mobile No." handleChange={handleChange} half />
                   <Input name="department" label="Department" handleChange={handleChange} half />
-                  <Input name="address" label="Address" value={true} handleChange={handleChange} />
+                  <Input name="address" label="Address" handleChange={handleChange} />
                   <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
                   <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" /> 
                 </Grid>
                 <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                   Register
                 </Button>
-                <Button fullWidth variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
+                <Button fullWidth type='reset' variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
                         Cancel
                 </Button> 
                 {/* <GoogleLogin
@@ -107,17 +109,17 @@ const SignUp = () =>{
           // </Container>
         :
         // <Container component="main" maxWidth="xs">
-          <Paper className={classes.paper} elevation={3} style={{width:'360px'}}>
+          <Paper className={classes.paper} elevation={3} >
             <BusinessRoundedIcon color='primary' style={{fontSize:'60px'}} />
             <Typography component="h1" variant="h5">Faculty Remove</Typography>
-            <form className={classes.form} >
+            <form className={classes.form} ref={formRef}>
               <Grid container spacing={1}>
                 <Input name="email" label="Email" handleChange={handleChange} type='email' autoFocus/>
               </Grid>
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 Remove
               </Button>
-              <Button fullWidth variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
+              <Button fullWidth type='reset' variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
                         Cancel
                 </Button>             
             </form>
@@ -128,4 +130,4 @@ const SignUp = () =>{
       </ReactCardFlip>
     );
 }
-export default SignUp;
+export default FacultySignup;

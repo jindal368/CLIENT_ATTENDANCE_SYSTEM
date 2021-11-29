@@ -5,10 +5,10 @@ import {Button, Paper, Grid, Typography, Container, Tabs, Tab , AppBar,MenuItem,
 import useStyles from './styles';
 import Input from '../Auth/Input';
 
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+// const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
 const College = () =>{
-    const [form, setForm] = useState(initialState);
+    const [form, setForm] = useState({});
     const [value, setValue] = useState("college");
     const [collegeSelect,setCollegeSelect] = useState('');
     const [detail,setDetail] = useState([]);
@@ -31,7 +31,7 @@ const College = () =>{
 
     const handleChange1 = (event, newValue) => {
       setValue(newValue);
-      setForm(initialState);
+      setForm({});
     };
 
 
@@ -75,10 +75,10 @@ const College = () =>{
               labelId="demo-simple-select-outlined-label" id="demo-simple-select-outlined"
               value={collegeSelect}
               onChange={(e) => setCollegeSelect(e.target.value)}
-              label="Course"
+              label="College"
             >
               <MenuItem value=""><em>None</em></MenuItem>
-              {detail?.course?.map((data,index)=>{
+              {detail?.college?.map((data,index)=>{
                 return <MenuItem value={data} key={data+index}>{data}</MenuItem>;
               })}
             </Select>

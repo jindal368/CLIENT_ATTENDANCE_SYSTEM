@@ -16,7 +16,7 @@ export default makeStyles((theme) => ({
     },
   },
   heading: {
-    color: 'rgba(0,183,255, 1)',
+    color: 'rgba(0,0,171, 1)',
     textDecoration: 'none',
     fontSize: '2em',
   },
@@ -58,5 +58,41 @@ export default makeStyles((theme) => ({
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+  },
+  top: {
+    display: 'flex',
+    flexDirection:'column',
+    height: '60px',
+    justifyContent: 'center',
+    backgroundColor: 'aliceblue',
+    fontWeight: '500',
+  },
+  media: {
+    height: 250,
+  },
+  contain: {
+    display: 'flex',
+    flexDirection:'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+    marginBottom: '30px',
+    marginRight: '30px',
+    width: '328px',
+  },
+  root: {
+    // maxWidth: 345,
+    boxShadow: '0 2px 8px 0',
+    marginBottom: '30px',
+    marginRight: '30px',
+    // width: '392px',
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 }));

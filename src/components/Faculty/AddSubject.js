@@ -9,12 +9,12 @@ import ReactCardFlip from 'react-card-flip';
 import subjectIcon from '../../images/subject.jpg';
 
 
-const initialState = {email: ''};
-const top100Films = [];
+// const initialState = {course: '',year: '', semester: '',stream: '',subject: []};
+const subjecList = [];
   
 
-const SignUp = () =>{
-    const [form, setForm] = useState(initialState);
+const AddSubject = () =>{
+    const [form, setForm] = useState({});
     const [value, setValue] = useState("signup");
     const [isFlip, setIsFlip] = useState(false);
     const classes = useStyles();    
@@ -34,7 +34,7 @@ const SignUp = () =>{
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     const fliphandler = () =>{
-        setForm(initialState);
+        setForm({});
         setIsFlip(!isFlip);
     }
 
@@ -59,18 +59,18 @@ const SignUp = () =>{
                 </CardActionArea>
             </Card>
             {/* <Container component="main" maxWidth="xs"> */}
-                <Paper className={classes.paper} elevation={3} style={{width:'360px'}}>
+                <Paper className={classes.paper} elevation={3} >
                 <Typography gutterBottom component="h2" variant="h4">Subject Add</Typography>
                 <form className={classes.form} >
                     <Grid container spacing={2}>
                     <Input name="course" label="Course" handleChange={handleChange} autoFocus/> 
                     <Input name="year" label="year" handleChange={handleChange} half/> 
                     <Input name="sem" label="Semester" handleChange={handleChange} half/> 
-                    <Input name="" label="Course" handleChange={handleChange} /> 
+                    <Input name="stream" label="Stream" handleChange={handleChange} /> 
                     <Autocomplete
                         multiple
                         id="tags-filled"
-                        options={top100Films.map((option) => option.title)}
+                        options={subjecList.map((option) => option.title)}
                         style={{width:'100%'}}
                         freeSolo
                         onChange={handleChange}
@@ -88,7 +88,7 @@ const SignUp = () =>{
                     <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} >
                         Subject Add
                     </Button>
-                    <Button fullWidth variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
+                    <Button fullWidth type="reset" variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
                         Cancel
                     </Button>
                     
@@ -98,4 +98,4 @@ const SignUp = () =>{
         </ReactCardFlip>
     );
 }
-export default SignUp;
+export default AddSubject;

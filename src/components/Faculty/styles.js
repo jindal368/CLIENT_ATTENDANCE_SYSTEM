@@ -62,9 +62,6 @@ export default makeStyles((theme) => ({
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
-  root: {
-    marginTop: '0'
-  },
   
   title: {
     fontSize: 14,
@@ -91,10 +88,11 @@ export default makeStyles((theme) => ({
     fontWeight: '500',
   },
   root: {
-    maxWidth: 345,
+    // maxWidth: 345,
     boxShadow: '0 2px 8px 0',
     marginBottom: '30px',
-    marginRight: '30px'
+    marginRight: '30px',
+    // width: '392px',
   },
   media: {
     height: 250,
@@ -120,7 +118,9 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: theme.spacing(2),
-    marginBottom: '15px'
+    width: '328px',
+    marginBottom: '30px',
+    marginRight: '30px',
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -131,4 +131,15 @@ export default makeStyles((theme) => ({
     fontSize : '20px',
     height: '64px',
   },
+  list: {
+    width: '90%',
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
+  },
+  purple: {
+    marginRight: '10px',
+    color: theme.palette.getContrastText(deepPurple[500]),
+    backgroundColor: deepPurple[500],
+  }
 }));
