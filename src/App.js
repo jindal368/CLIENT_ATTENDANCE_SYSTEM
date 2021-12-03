@@ -1,39 +1,51 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Student from './components/Student/Student';
 import Faculty from './components/Faculty/Faculty'
+import {useHistory } from 'react-router-dom';
 import {useSelector} from 'react-redux'
 import Navbar from './components/Navbar/Navbar';
 import Auth from './components/Auth/Auth';
 import College from './components/component/College';
+import AdminSignup from './components/component/AdminSignup';
 
 const App = () => {
-  const userType = useSelector((state)=> state.auth);
-  console.log("UserType : ",userType)
+  const collegeId = useSelector((state)=> state.attendance.collegeId);
+  const adminSignup = useSelector((state)=> state.attendance.adminSignup);
+  const designation = useSelector((state)=> state.attendance.designation);
+  let history = useHistory();
   var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+  {
+    collegeId === null ? 
+      history.push("/")
+      :
+      (adminSignup?
+        history.push("/adminSignup")
+        :
+        (designation===''?
+          history.push("/auth")
+          :
+          (designation==='faculty'?
+            history.push("/faculty")
+            : 
+            history.push("/student")
+          )
+        )
+      )
+  }
   return (
-  <BrowserRouter>
     <Container maxWidth="xl" style={{padding:'0',width:'95%'}}>
       
       <Navbar />
       <Switch>
-      {
-        userType?.authData === null ? 
-        <Route path="/" exact component={() => <Redirect to="/auth" />} />:(
-         userType?.authData?.result?.email==="vipul.sharma.cs.2018@miet.ac.in" 
-          ?
-         <Route path="/" exact component={() => <Redirect to="/faculty" />} />
-          : 
-        <Route path="/" exact component={() => <Redirect to="/student" />} />)
-      }
          <Route path="/student" exact component={Student} />
          <Route path="/faculty" exact component={Faculty} />
          <Route path="/auth" exact component={Auth} />
+         <Route path="/adminSignup" exact component={AdminSignup} />
          <Route path="/" exact component={College} />
       </Switch>
     </Container>
-  </BrowserRouter>
 );
 }
 

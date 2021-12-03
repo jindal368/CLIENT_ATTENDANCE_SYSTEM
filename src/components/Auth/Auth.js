@@ -1,13 +1,13 @@
 import React, { useState,useRef } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container, Tabs, Tab ,AppBar} from '@material-ui/core';
-import { useHistory ,Redirect} from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import env from 'react-dotenv'
 import Icon from './icon';
 import { signin, signup } from '../../actions/auth';
 import { AUTH } from '../../constants/actionTypes';
+import {signInFaculty} from '../../actions/attendance'
 import useStyles from './styles';
 import Input from './Input';
 
@@ -19,7 +19,6 @@ const SignUp = () => {
   const [form, setForm] = useState({});
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
-  const history = useHistory();
   const classes = useStyles();
    const user = useSelector((state)=> state.auth);
   const [showPassword, setShowPassword] = useState(false);
@@ -34,11 +33,15 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (isSignup) {
-      dispatch(signup(form, history));
-    } else {
-      dispatch(signin(form, history));
+    if(value==='faculty'){
+      dispatch(signInFaculty(form));
+    }
+    else{
+      if (isSignup) {
+        dispatch(signup(form));
+      } else {
+        dispatch(signin(form));
+      }
     }
   };
 
@@ -48,8 +51,6 @@ const SignUp = () => {
 
     try {
       dispatch({ type: AUTH, data: { result, token } });
-
-      history.push('/');
     } catch (error) {
       console.log(error);
     }
@@ -71,10 +72,6 @@ const SignUp = () => {
 
 
   return (
-    user.authData!==null ?
-    
-    <Redirect to="/student" />
-     :
      <div>
           <Container component="main" maxWidth="xs">
             <AppBar position="static" style={{marginTop:'20px'}}>
@@ -165,13 +162,6 @@ const SignUp = () => {
                   onFailure={googleError}
                   cookiePolicy="single_host_origin"
                 /> */}
-                {/* <Grid container justify="center">
-                  <Grid item>
-                    <Button onClick={switchMode}>
-                      { isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up" }
-                    </Button>
-                  </Grid>
-                </Grid> */}
               </form>
             </Paper>
           </Container>}

@@ -98,14 +98,12 @@ const StudentReport = () =>{
                 </CardActionArea>
             </Card>
 
-            {/* <Container component="main" maxWidth="xs"> */}
             <Paper className={classes.paper} elevation={3} style={{width:'320px'}}>
-                <Button fullWidth variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
+                <Button fullWidth variant="contained" color="secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
                     Cancel
                 </Button>
                 hello
             </Paper>
-            {/* </Container> */}
         </ReactCardFlip>
     );
 }

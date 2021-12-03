@@ -136,7 +136,17 @@ export default makeStyles((theme) => ({
     position: 'relative',
     overflow: 'auto',
     maxHeight: 300,
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
   },
+  // list: `
+  //   width: 90%;
+  //   position: relative;
+  //   overflow: auto;
+  //   max-height: 300px;
+  //   ms-overflow-style: none;
+  // `,
   purple: {
     marginRight: '10px',
     color: theme.palette.getContrastText(deepPurple[500]),

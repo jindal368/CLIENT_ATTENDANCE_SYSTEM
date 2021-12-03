@@ -1,13 +1,13 @@
 import React, { useState,useRef } from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import BusinessRoundedIcon from '@material-ui/icons/BusinessRounded';
-import { Button, Paper, Grid, Typography, Container, Tabs, Tab , AppBar, Card, CardContent , CardActionArea, CardMedia} from '@material-ui/core';
+import { Button, Paper, Grid, Typography, Tabs, Tab , AppBar, Card, CardContent , CardActionArea, CardMedia} from '@material-ui/core';
 import useStyles from './styles';
 import ReactCardFlip from 'react-card-flip';
 import Input from '../Auth/Input';
 import facultyImage from '../../images/faculty.png';
+import {signUpFaculty, removeFaculty} from '../../actions/attendance'
 
-// const initialState = { name: '', email: '', mobile: '', password: '', confirmPassword: '',address: '',department: '', collegeId: '' };
 
 const FacultySignup = () =>{
     const [form, setForm] = useState({});
@@ -17,17 +17,33 @@ const FacultySignup = () =>{
     const classes = useStyles();    
     const formRef = useRef();
     const dispatch = useDispatch();
+    const collegeId = useSelector((state)=>state.attendance.collegeId.collegeSchema._id)
 
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
     
-    //     if (isSignup) {
-    //       dispatch(registerCollege(form, history));
-    //     } else {
-    //       dispatch(facultySignin(form, history));
-    //     }
-    //   };
+        if (value=='signup') {
+          dispatch(signUpFaculty(form,collegeId))
+            .then(() =>{
+              console.log("faculty SignUp ")
+              formRef.current.reset();
+              setIsFlip(!isFlip)
+            })
+            .catch((err) =>{
+              console.log("Error : ",err);
+            })
+        } else {
+          dispatch(removeFaculty(form.email))
+            .then(() =>{
+              console.log("Faculty Remove ")
+              formRef.current.reset();
+              setIsFlip(!isFlip)
+            })
+            .catch((err) =>{
+              console.log("Error : ",err);
+            })
+        }
+      };
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
     const handleShowPassword = () => setShowPassword(!showPassword);
@@ -41,6 +57,7 @@ const FacultySignup = () =>{
       setForm({});
       setIsFlip(!isFlip);
   }
+
 
 
     return(
@@ -63,22 +80,20 @@ const FacultySignup = () =>{
                 </CardActionArea>
             </Card>
       <div>
-        {/* <Container component="main" maxWidth="xs"> */}
             <AppBar position="static" style={{width:'360px'}}>
                 <Tabs value={value} onChange={handleChange1} aria-label="simple tabs example">
                   <Tab label="Signup" value={'signup'} className={classes.head} />
                   <Tab label="Remove" value={'remove'} className={classes.head} />
                 </Tabs>
             </AppBar>
-        {/* </Container> */}
         {value=='signup'?
-          // <Container component="main" maxWidth="xs">
             <Paper className={classes.paper} elevation={3} >
               <BusinessRoundedIcon color='primary' style={{fontSize:'60px'}} />
               <Typography component="h1" variant="h5">Faculty SignUp</Typography>
-              <form className={classes.form} ref={formRef}>
+              <form className={classes.form} ref={formRef} onSubmit={(e) =>handleSubmit(e)}>
                 <Grid container spacing={2}>
-                  <Input name="name" label="Name" handleChange={handleChange} autoFocus/>
+                  <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half/>
+                  <Input name="lastName" label="Last Name" handleChange={handleChange} half/>
                   <Input name="email" label="Email" handleChange={handleChange} type="email" />
                   <Input name="mobile" label="Mobile No." handleChange={handleChange} half />
                   <Input name="department" label="Department" handleChange={handleChange} half />
@@ -89,7 +104,7 @@ const FacultySignup = () =>{
                 <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                   Register
                 </Button>
-                <Button fullWidth type='reset' variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
+                <Button fullWidth type='reset' variant="contained" color="secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
                         Cancel
                 </Button> 
                 {/* <GoogleLogin
@@ -106,25 +121,22 @@ const FacultySignup = () =>{
                 
               </form>
             </Paper>
-          // </Container>
         :
-        // <Container component="main" maxWidth="xs">
           <Paper className={classes.paper} elevation={3} >
             <BusinessRoundedIcon color='primary' style={{fontSize:'60px'}} />
             <Typography component="h1" variant="h5">Faculty Remove</Typography>
-            <form className={classes.form} ref={formRef}>
+            <form className={classes.form} ref={formRef} onSubmit={(e) =>handleSubmit(e)} >
               <Grid container spacing={1}>
                 <Input name="email" label="Email" handleChange={handleChange} type='email' autoFocus/>
               </Grid>
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 Remove
               </Button>
-              <Button fullWidth type='reset' variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
-                        Cancel
-                </Button>             
+              <Button fullWidth type='reset' variant="contained" color="secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
+                Cancel
+              </Button>             
             </form>
           </Paper>
-        // </Container>
         }
       </div>
       </ReactCardFlip>

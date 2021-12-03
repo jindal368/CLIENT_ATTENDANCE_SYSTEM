@@ -5,7 +5,7 @@ import useStyles from './styles';
 import ReactCardFlip from 'react-card-flip';
 import report from '../../images/report.png';
 import QrCodeGenerator from '../util/QrCodeGenerator'
-
+import Calendar from 'react-calendar';
 
 
 const StudentReport = () =>{
@@ -15,6 +15,7 @@ const StudentReport = () =>{
     const dispatch = useDispatch();
     const [resultArray , setResultArray] = useState([])
     const attendanceFetchedData = useSelector((state) => state.attendance)
+    const [value, onChange] = useState(new Date());
     // useEffect(() => {
     //     displayData(resultArray)
     // })
@@ -98,19 +99,27 @@ const StudentReport = () =>{
                 </CardActionArea>
             </Card>
 
-            {/* <Container component="main" maxWidth="xs"> */}
-            <Paper className={classes.paper} elevation={3} style={{width:'320px'}}>
-                <Button fullWidth type='reset' variant="contained" color="Secondary" className={classes.submit} onClick={fliphandler} style={{marginTop:'0px'}} >
-                    Cancel
+            {isFlip?
+            <div>
+              <Paper className={classes.paper} elevation={3} style={{padding:'0'}}>
+                <Button fullWidth variant="contained" color="secondary" onClick={fliphandler}>
+                  Cancel
                 </Button>
-                {/* {resultArray?.length ? 
-                   null:
-                   <Button onClick={fetchData} style={{color:'red'}}>Fetch Data</Button>
-                } */}
-                {displayData(resultArray)}
-                {resultArray?.length ? <Button onClick={clearResultArray}>Clear</Button> : <div/>}
-            </Paper>
-            {/* </Container> */}
+                  {/* {resultArray?.length ? 
+                    null:
+                    <Button onClick={fetchData} style={{color:'red'}}>Fetch Data</Button>
+                  }
+                  {displayData(resultArray)}
+                  {resultArray?.length ? <Button onClick={clearResultArray}>Clear</Button> : <div/>} */}
+                <div>
+                  <Calendar
+                    onChange={onChange}
+                    value={value}
+                  />
+                </div>
+              </Paper>
+            </div>     
+            :<></>} 
         </ReactCardFlip>
     );
 }

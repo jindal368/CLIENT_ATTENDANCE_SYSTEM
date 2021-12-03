@@ -15,13 +15,14 @@ export default function QrCodeGenerator({value}) {
     return (
         <div>
             <QRCode
+            size='75vh'
              value={value}
              renderAs="svg"
             fgColor="#333"
             bgColor="#fff"
             key={`key-${value}`}
             />
-            <Button onClick={() => dispatch(updateStudent(data))} style={{color: 'pink'}} >Update data</Button>
+            {/* <Button onClick={() => dispatch(updateStudent(data))} style={{color: 'pink'}} >Update data</Button> */}
         </div>
     )
 }
