@@ -50,8 +50,8 @@ export const fetchAllCollege = () => API.get(`/college/fetchcollege`);
 
 // Faculty API
 
-export const signInFaculty = (formData) =>
-  API.post("/faculty/signin", formData);
+export const signInFaculty = (formData, collegeId) =>
+  API.post(`/faculty/signin?id=${collegeId}`, formData);
 export const signUpFaculty = (formData, collegeId) =>
   API.post(`/faculty/signup?id=${collegeId}`, formData);
 export const getFaculty = (collegeId) =>
@@ -70,15 +70,15 @@ export const removeAdmin = (email) =>
 
 export const signIn = (formData, latitude, longitude) =>
   API.post(
-    `/user/signin?latitude=${latitude}&longitude=${longitude}`,
+    `/student/signin?latitude=${latitude}&longitude=${longitude}`,
     formData
   );
 export const signUp = (formData, collegeId, latitude, longitude) =>
   API.post(
-    `/user/signup?id=${collegeId}&latitude=${latitude}&longitude=${longitude}`,
+    `/student/signup?id=${collegeId}&latitude=${latitude}&longitude=${longitude}`,
     formData
   );
 
-export const getDataToStudent = () => API.get(`/user/getdatatostudent`);
+export const getDataToStudent = () => API.get(`/student/getdatatostudent`);
 
 export const detail = (formData) => API.post("/subject/detail", formData);

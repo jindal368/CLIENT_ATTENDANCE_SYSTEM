@@ -110,7 +110,6 @@ export const resetStudent = () => async (dispatch) => {
 //   }
 // };
 
-
 export const addCollege = (formData) => async (dispatch) => {
   try {
     const { data } = await api.addCollege(formData);
@@ -133,7 +132,7 @@ export const fetchAllCollege = () => async (dispatch) => {
 
 export const addInitialAdmin = (formedData, collegeId) => async (dispatch) => {
   try {
-    const { data } = await api.addInitialAdmin(formedData,collegeId);
+    const { data } = await api.addInitialAdmin(formedData, collegeId);
     console.log("Data in actions : ", data);
     dispatch({ type: ADD_INITIAL_ADMIN, data });
   } catch (error) {
@@ -143,15 +142,15 @@ export const addInitialAdmin = (formedData, collegeId) => async (dispatch) => {
 
 // FACULTY ACTION
 
-export const signInFaculty = (formedData) => async (dispatch) => {
+export const signInFaculty = (formedData, collegeId) => async (dispatch) => {
   try {
-    const { data } = await api.signInFaculty(formedData);
+    const { data } = await api.signInFaculty(formedData, collegeId);
     console.log("Data in actions : ", data);
     dispatch({ type: SIGNIN_FACULTY, data });
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const signUpFaculty = (formedData, collegeId) => async () => {
   try {
     const { data } = await api.signUpFaculty(formedData, collegeId);
@@ -159,7 +158,7 @@ export const signUpFaculty = (formedData, collegeId) => async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const removeFaculty = (email) => async () => {
   try {
     const { data } = await api.removeFaculty(email);
@@ -167,18 +166,17 @@ export const removeFaculty = (email) => async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const getFaculty = (collegeId) => async (dispatch) => {
   try {
     const { data } = await api.getFaculty(collegeId);
     console.log("Data in actions : ", data);
 
     dispatch({ type: GET_FACULTY, data });
-
-    } catch (error) {
+  } catch (error) {
     console.log(error);
   }
-}
+};
 export const makeAdmin = (email) => async () => {
   try {
     const { data } = await api.makeAdmin(email);
@@ -186,7 +184,7 @@ export const makeAdmin = (email) => async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const removeAdmin = (email) => async () => {
   try {
     const { data } = await api.removeAdmin(email);
@@ -194,4 +192,4 @@ export const removeAdmin = (email) => async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};

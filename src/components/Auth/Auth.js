@@ -1,16 +1,26 @@
-import React, { useState,useRef } from 'react';
-import { useDispatch ,useSelector} from 'react-redux';
-import { Avatar, Button, Paper, Grid, Typography, Container, Tabs, Tab ,AppBar} from '@material-ui/core';
-import { GoogleLogin } from 'react-google-login';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import env from 'react-dotenv'
-import Icon from './icon';
-import { signin, signup } from '../../actions/auth';
-import { AUTH } from '../../constants/actionTypes';
-import {signInFaculty} from '../../actions/attendance'
-import useStyles from './styles';
-import Input from './Input';
-
+import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Avatar,
+  Button,
+  Paper,
+  Grid,
+  Typography,
+  Container,
+  Tabs,
+  Tab,
+  AppBar,
+} from "@material-ui/core";
+import { GoogleLogin } from "react-google-login";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import env from "react-dotenv";
+import Icon from "./icon";
+import { signin, signup } from "../../actions/auth";
+import { AUTH } from "../../constants/actionTypes";
+import { signInFaculty } from "../../actions/attendance";
+import useStyles from "./styles";
+import Input from "./Input";
+import { Redirect, useHistory } from "react-router-dom";
 
 // const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
@@ -18,13 +28,34 @@ const SignUp = () => {
   const [value, setValue] = React.useState("student");
   const [form, setForm] = useState({});
   const [isSignup, setIsSignup] = useState(false);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
   const dispatch = useDispatch();
   const classes = useStyles();
-   const user = useSelector((state)=> state.auth);
+  const history = useHistory();
+  // const user = useSelector((state) => state.auth);
+  const user = JSON.parse(localStorage.getItem("profile"));
+  const designation = JSON.parse(localStorage.getItem("designation"));
+  const collegeId = useSelector((state) => state.attendance.collegeId);
   const [showPassword, setShowPassword] = useState(false);
   const formRef = useRef();
   const handleShowPassword = () => setShowPassword(!showPassword);
-  
+
+  function getLocation() {
+    console.log("GEtLocation running");
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+      console.log("Latitude : ", latitude);
+      console.log("Longitude : ", longitude);
+    });
+  }
+
+  useEffect(() => {
+    getLocation();
+  }, dispatch);
+
   const switchMode = () => {
     setForm({});
     setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -33,14 +64,15 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(value==='faculty'){
-      dispatch(signInFaculty(form));
-    }
-    else{
+    if (value === "faculty") {
+      dispatch(signInFaculty(form, collegeId));
+    } else {
       if (isSignup) {
-        dispatch(signup(form));
+        dispatch(signup(form, collegeId, latitude, longitude));
       } else {
-        dispatch(signin(form));
+        dispatch(signin(form, latitude, longitude))
+          .then(() => history.push("/auth"))
+          .catch((err) => console.log(err));
       }
     }
   };
@@ -56,102 +88,214 @@ const SignUp = () => {
     }
   };
 
+  const googleError = () =>
+    console.log("Google Sign In was unsuccessful. Try again later");
 
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  const googleError = () => console.log('Google Sign In was unsuccessful. Try again later');
-
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  
-  
   const handleChange1 = (event, newValue) => {
     formRef.current.reset();
     setValue(newValue);
     setForm({});
   };
 
+  return collegeId === null || undefined ? (
+    <Redirect to="/" />
+  ) : user !== null ? (
+    designation === "faculty" ? (
+      <Redirect to="/faculty" />
+    ) : (
+      <Redirect to="/student" />
+    )
+  ) : (
+    <div>
+      <Container component="main" maxWidth="xs">
+        <AppBar position="static" style={{ marginTop: "20px" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange1}
+            aria-label="simple tabs example"
+          >
+            <Tab label="Faculty" value={"faculty"} className={classes.head} />
+            <Tab label="Student" value={"student"} className={classes.head} />
+          </Tabs>
+        </AppBar>
+      </Container>
 
-
-  return (
-     <div>
-          <Container component="main" maxWidth="xs">
-            <AppBar position="static" style={{marginTop:'20px'}}>
-                <Tabs value={value} onChange={handleChange1} aria-label="simple tabs example">
-                  <Tab label="Faculty" value={'faculty'} className={classes.head} />
-                  <Tab label="Student" value={'student'} className={classes.head} />
-                </Tabs>
-              </AppBar>
-          </Container>
-
-          {value=='student'?
-          <Container component="main" maxWidth="xs">
-            <Paper className={classes.paper} elevation={3}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">{ isSignup ? 'Sign up' : 'Sign in' }</Typography>
-              <form className={classes.form} onSubmit={handleSubmit} ref={formRef}>
-                <Grid container spacing={2}>
-                  { isSignup && (
+      {value == "student" ? (
+        <Container component="main" maxWidth="xs">
+          <Paper className={classes.paper} elevation={3}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              {isSignup ? "Sign up" : "Sign in"}
+            </Typography>
+            <form
+              className={classes.form}
+              onSubmit={handleSubmit}
+              ref={formRef}
+            >
+              <Grid container spacing={2}>
+                {isSignup && (
                   <>
-                    <Input name="firstName" label="Name" handleChange={handleChange} half autoFocus />
-                    <Input name="lastName" label="Name" handleChange={handleChange} half />
+                    <Input
+                      name="firstName"
+                      label="Name"
+                      handleChange={handleChange}
+                      half
+                      autoFocus
+                    />
+                    <Input
+                      name="lastName"
+                      label="Name"
+                      handleChange={handleChange}
+                      half
+                    />
                   </>
-                  )}
-                  <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
-                  <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-                  { isSignup && (
-                    <>
-                  <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password"/>
-                  <Input name="rollNo" label="Roll No" handleChange={handleChange} type="number" half/>
-                  <Input name="mobile" label="Mobile No." handleChange={handleChange} half/>
-                  <Input name="course" label="Course" handleChange={handleChange} />
-                  <Input name="year" label="Year" handleChange={handleChange}half/>
-                  <Input name="section" label="Section" handleChange={handleChange}half/>
-                  </>
-                  )}
-
-                </Grid>
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                  { isSignup ? 'Sign Up' : 'Sign In' }
-                </Button>
-                
-                <GoogleLogin
-                  clientId = {env.GOOGLE_CLIENT_ID}
-                  render={(renderProps) => (
-                    <Button className={classes.googleButton} color="primary" fullWidth onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} variant="contained">
-                      Google Sign In
-                    </Button>
-                  )}
-                  onSuccess={googleSuccess}
-                  onFailure={googleError}
-                  cookiePolicy="single_host_origin"
+                )}
+                <Input
+                  name="email"
+                  label="Email Address"
+                  handleChange={handleChange}
+                  type="email"
                 />
-                <Grid container justify="center">
-                  <Grid item>
-                    <Button onClick={switchMode} type="reset">
-                      { isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up" }
-                    </Button>
-                  </Grid>
+                <Input
+                  name="password"
+                  label="Password"
+                  handleChange={handleChange}
+                  type={showPassword ? "text" : "password"}
+                  handleShowPassword={handleShowPassword}
+                />
+                {isSignup && (
+                  <>
+                    <Input
+                      name="confirmPassword"
+                      label="Repeat Password"
+                      handleChange={handleChange}
+                      type="password"
+                    />
+                    <Input
+                      name="rollNo"
+                      label="Roll No"
+                      handleChange={handleChange}
+                      type="number"
+                      half
+                    />
+                    <Input
+                      name="mobile"
+                      label="Mobile No."
+                      handleChange={handleChange}
+                      half
+                    />
+                    <Input
+                      name="course"
+                      label="Course"
+                      handleChange={handleChange}
+                    />
+                    <Input
+                      name="year"
+                      label="Year"
+                      handleChange={handleChange}
+                      half
+                    />
+                    <Input
+                      name="semester"
+                      label="Semester"
+                      handleChange={handleChange}
+                      half
+                    />
+                    <Input
+                      name="section"
+                      label="Section"
+                      handleChange={handleChange}
+                      half
+                    />
+                  </>
+                )}
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                {isSignup ? "Sign Up" : "Sign In"}
+              </Button>
+
+              <GoogleLogin
+                clientId={env.GOOGLE_CLIENT_ID}
+                render={(renderProps) => (
+                  <Button
+                    className={classes.googleButton}
+                    color="primary"
+                    fullWidth
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                    startIcon={<Icon />}
+                    variant="contained"
+                  >
+                    Google Sign In
+                  </Button>
+                )}
+                onSuccess={googleSuccess}
+                onFailure={googleError}
+                cookiePolicy="single_host_origin"
+              />
+              <Grid container justify="center">
+                <Grid item>
+                  <Button onClick={switchMode} type="reset">
+                    {isSignup
+                      ? "Already have an account? Sign in"
+                      : "Don't have an account? Sign Up"}
+                  </Button>
                 </Grid>
-              </form>
-            </Paper>
-          </Container>
-          :
-          <Container component="main" maxWidth="xs">
-            <Paper className={classes.paper} elevation={3}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">Sign in</Typography>
-              <form className={classes.form} onSubmit={handleSubmit} ref={formRef}>
-                <Grid container spacing={2}>
-                  <Input name="email" label="Email Address" handleChange={handleChange} type="email" autoFocus/>
-                  <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-                </Grid>
-                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-                  Sign In
-                </Button>
-                {/* <GoogleLogin
+              </Grid>
+            </form>
+          </Paper>
+        </Container>
+      ) : (
+        <Container component="main" maxWidth="xs">
+          <Paper className={classes.paper} elevation={3}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <form
+              className={classes.form}
+              onSubmit={handleSubmit}
+              ref={formRef}
+            >
+              <Grid container spacing={2}>
+                <Input
+                  name="email"
+                  label="Email Address"
+                  handleChange={handleChange}
+                  type="email"
+                  autoFocus
+                />
+                <Input
+                  name="password"
+                  label="Password"
+                  handleChange={handleChange}
+                  type={showPassword ? "text" : "password"}
+                  handleShowPassword={handleShowPassword}
+                />
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+              {/* <GoogleLogin
                   clientId = {env.GOOGLE_CLIENT_ID}
                   render={(renderProps) => (
                     <Button className={classes.googleButton} color="primary" fullWidth onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} variant="contained">
@@ -162,9 +306,10 @@ const SignUp = () => {
                   onFailure={googleError}
                   cookiePolicy="single_host_origin"
                 /> */}
-              </form>
-            </Paper>
-          </Container>}
+            </form>
+          </Paper>
+        </Container>
+      )}
     </div>
   );
 };
