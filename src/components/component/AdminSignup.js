@@ -15,10 +15,10 @@ const AdminSignup = () =>{
     const dispatch = useDispatch();
     const history = useHistory();
 
-    console.log('Admin Signup Componenet');
+    console.log('collegeId',collegeId,form);
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addInitialAdmin(form, collegeId, history));
+        dispatch(addInitialAdmin(form, collegeId));
       };
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });

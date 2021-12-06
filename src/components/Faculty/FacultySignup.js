@@ -17,8 +17,8 @@ const FacultySignup = () =>{
     const classes = useStyles();    
     const formRef = useRef();
     const dispatch = useDispatch();
-    const collegeId = useSelector((state)=>state.attendance.collegeId.collegeSchema._id)
-
+    const collegeId = useSelector((state)=>state.attendance.collegeId.collegeSchema.collegeId)
+    console.log(form)
     const handleSubmit = (e) => {
         e.preventDefault();
     

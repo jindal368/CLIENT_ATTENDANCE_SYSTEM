@@ -5,8 +5,8 @@ import {Button, Paper, Grid, Typography, Container, Tabs, Tab , AppBar,MenuItem,
 import useStyles from './styles';
 import Input from '../Auth/Input';
 import {useHistory} from 'react-router-dom'
-import {fetchAllCollege , addCollege} from '../../actions/attendance'
-import { SET_COLLEGE_ID } from '../../constants/actionTypes';
+import {fetchAllCollege , addCollege ,setCollegeId} from '../../actions/attendance'
+// import { SET_COLLEGE_ID } from '../../constants/actionTypes';
 
 
 const College = () =>{
@@ -17,23 +17,28 @@ const College = () =>{
     const classes = useStyles();  
     const history = useHistory();  
     const dispatch = useDispatch();
-    const collegelist = useSelector((state)=>state.attendance.collegeList) 
-
+    const collegelist = useSelector((state)=>state.attendance.collegeList?.collegeSchema) 
+  console.log(collegelist)
     useEffect(() => {
       dispatch(fetchAllCollege());
     },[])
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addCollege(form, history));
+        dispatch(addCollege(form));
     };
 
-    const handleCollege = () =>{
+    const handleCollege = (e) =>{
+      e.preventDefault();
       if(collegeSelect === ""){
         setIsError(true);
       }else{
+        const data = {
+          collegeSchema:{
+            collegeId : collegeSelect
+          }
+        }
         try {
-          dispatch({ type: SET_COLLEGE_ID, collegeSelect });    
-          history.push('/');
+          dispatch(setCollegeId(data,history));
         } catch (error) {
           console.log(error);
         }
@@ -46,7 +51,6 @@ const College = () =>{
       setValue(newValue);
       setForm({});
     };
-
 
     return(
       <div>

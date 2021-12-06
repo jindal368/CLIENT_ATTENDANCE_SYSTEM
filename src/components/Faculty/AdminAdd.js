@@ -16,7 +16,7 @@ const AdminAdd = () =>{
     const classes = useStyles();    
     const dispatch = useDispatch();
 
-
+    console.log('email',form);
     const handleSubmit = (e) => {
         e.preventDefault();
         let data = form.email

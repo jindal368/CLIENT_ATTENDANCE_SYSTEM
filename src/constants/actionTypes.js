@@ -35,3 +35,7 @@ export const GET_DATA_TO_STUDENT = "GET_DATA_TO_STUDENT";
 export const RESET_STUDENT = "RESET_STUDENT";
 
 export const SET_COLLEGE_ID = "SET_COLLEGE_ID"
+
+//SUBJECT......
+
+export const SUBJECT_LIST = "SUBJECT_LIST";

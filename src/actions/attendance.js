@@ -7,19 +7,21 @@ import {
   EXPIRE_SUBJECT,
   ADD_COLLEGE,
   ADD_INITIAL_ADMIN,
-  GET_COLLEGE_DATA,
+  // GET_COLLEGE_DATA,
   FETCH_ALL_COLLEGE,
   SIGNIN_FACULTY,
-  SIGNUP_FACULTY,
+  // SIGNUP_FACULTY,
   GET_FACULTY,
-  REMOVE_FACULTY,
-  MAKE_ADMIN,
-  REMOVE_ADMIN,
-  SIGNIN_STUDENT,
-  SIGNUP_STUDENT,
-  GET_DATA_TO_STUDENT,
-  LOGOUT,
+  // REMOVE_FACULTY,
+  // MAKE_ADMIN,
+  // REMOVE_ADMIN,
+  // SIGNIN_STUDENT,
+  // SIGNUP_STUDENT,
+  // GET_DATA_TO_STUDENT,
+  // LOGOUT,
   RESET_STUDENT,
+  SET_COLLEGE_ID,
+  SUBJECT_LIST,
 } from "../constants/actionTypes";
 import * as api from "../api/index.js";
 
@@ -67,7 +69,7 @@ export const getDetailToAdmin =
 export const fetchAllListToFaculty = (email) => async (dispatch) => {
   try {
     const { data } = await api.fetchAllListToFaculty(email);
-    console.log("Data in actions : ", data);
+    console.log("fetch list to Faculty  : ", data);
     dispatch({ type: FETCH_LIST_TO_FACULTY, data });
   } catch (error) {
     console.log(error);
@@ -140,12 +142,20 @@ export const addInitialAdmin = (formedData, collegeId) => async (dispatch) => {
     console.log(error);
   }
 };
+export const setCollegeId = (collegeId,router) => async (dispatch) => {
+  try {
+    dispatch({ type: SET_COLLEGE_ID, collegeId });
+    router.push('/');
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // FACULTY ACTION
 
-export const signInFaculty = (formedData) => async (dispatch) => {
+export const signInFaculty = (collegeId,formedData) => async (dispatch) => {
   try {
-    const { data } = await api.signInFaculty(formedData);
+    const { data } = await api.signInFaculty(collegeId,formedData);
     console.log("Data in actions : ", data);
     dispatch({ type: SIGNIN_FACULTY, data });
   } catch (error) {
@@ -191,6 +201,27 @@ export const removeAdmin = (email) => async () => {
   try {
     const { data } = await api.removeAdmin(email);
     console.log("Data in actions : ", data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// subject
+
+export const subjectCreate = (formData) => async () => {
+  try {
+    const { data } = await api.subjectCreate(formData);
+    console.log("Data in actions : ", data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const getSubjects = (formData) => async (dispatch) => {
+  try {
+    const { data } = await api.getSubjects(formData);
+    console.log("Data in actions : ", data);
+
+    dispatch({ type: SUBJECT_LIST, data });
   } catch (error) {
     console.log(error);
   }

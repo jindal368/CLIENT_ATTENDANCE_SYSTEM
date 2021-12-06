@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect, useRef} from 'react';
 import { useDispatch ,useSelector} from 'react-redux';
 import { Button, Paper, Grid, Typography, Card, CardContent , CardActionArea, CardMedia, TextField, Chip} from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -6,6 +6,7 @@ import useStyles from './styles';
 import Input from '../Auth/Input';
 import ReactCardFlip from 'react-card-flip';
 import subjectIcon from '../../images/subject.jpg';
+import {subjectCreate} from '../../actions/attendance'
 
 
 const subjecList = [];
@@ -14,7 +15,8 @@ const subjecList = [];
 const AddSubject = () =>{
     const [form, setForm] = useState({});
     const [isFlip, setIsFlip] = useState(false);
-    const classes = useStyles();    
+    const classes = useStyles(); 
+    const formRef = useRef();   
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth);
 
@@ -25,20 +27,29 @@ const AddSubject = () =>{
       const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
-          facultyEmail: user.authData.result.email,
-          subject: form.subject,
+          subjects: form.subject,
           course: form.course,
           year: form.year,
-          semester: form.sem,
+          sem: form.sem,
           stream: form.stream,
         };
         console.log("Data : ", data);
-        
+        dispatch(subjectCreate(data))
+        .then(()=>{
+            console.log("subject Created");
+            formRef.current.reset();
+            fliphandler()
+        })
+        .catch((err) =>{
+            console.log("Error : ",err);
+            formRef.current.reset();
+            fliphandler()
+          })
         setForm({});
       };
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-    console.log('form data : ',form);
+
     const fliphandler = () =>{
         setForm({});
         setIsFlip(!isFlip);
@@ -64,9 +75,10 @@ const AddSubject = () =>{
                     </CardContent>
                 </CardActionArea>
             </Card>
+            {isFlip?
                 <Paper className={classes.paper} elevation={3} >
                 <Typography gutterBottom component="h2" variant="h4">Subject Add</Typography>
-                <form className={classes.form} >
+                <form className={classes.form} onSubmit={(e) =>handleSubmit(e)} ref={formRef} >
                     <Grid container spacing={2}>
                     <Input name="course" label="Course" handleChange={handleChange} autoFocus/> 
                     <Input name="year" label="year" handleChange={handleChange} half/> 
@@ -98,7 +110,8 @@ const AddSubject = () =>{
                     </Button>
                     
                 </form>
-                </Paper>
+                </Paper>:null
+            }
         </ReactCardFlip>
     );
 }

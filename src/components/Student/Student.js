@@ -1,15 +1,12 @@
 import React from 'react'
 import { AppBar, Typography } from '@material-ui/core';
 import useStyles from './styles'
-import {useSelector , useDispatch} from 'react-redux';
 import StudentReport from './StudentReport';
 import QrCodeScanner from './QrCodeScanner';
 
 export default function Student() {
 
     const classes = useStyles()
-    const dispatch  = useDispatch();
-    const user = useSelector((state)=>state.auth)
    
     return (
         <div>

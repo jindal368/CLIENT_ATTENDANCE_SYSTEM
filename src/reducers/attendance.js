@@ -8,7 +8,7 @@ const initialState={
     subjectListing: [],
     collegeId: null,
     adminSignup: false,
-    designation: '',
+    designation: null,
 }
 const authReducer = (
   state = {
@@ -31,7 +31,7 @@ const authReducer = (
     case actionType.GET_ATTENDANCE:
       return { ...state, getAttendanceById: action.payload.data };
     case actionType.FETCH_LIST_TO_FACULTY:
-      return { ...state, fetchAllAttendance: action.data };
+      return { ...state, fetchAllAttendance: (action.data.attendanceSchema).reverse() };
     case actionType.GET_DETAIL_TO_ADMIN:
       return { ...state, detailToAdmin: action.payload.data };
     case actionType.UPDATE_STUDENT:
@@ -49,8 +49,8 @@ const authReducer = (
     case actionType.FETCH_ALL_COLLEGE:
       return { ...state, collegeList: action.data};
     case actionType.SET_COLLEGE_ID:
-      localStorage.setItem('collegeId', JSON.stringify({ ...action?.data }));
-      return { ...state, collegeId: action.data};
+      localStorage.setItem('collegeId', JSON.stringify({ ...action?.collegeId }));
+      return { ...state, collegeId: action.collegeId};
     case actionType.ADD_INITIAL_ADMIN:
       localStorage.setItem('profile', JSON.stringify({ ...action?.data}));
       localStorage.setItem('designation', 'faculty')
@@ -63,7 +63,7 @@ const authReducer = (
       return { ...state, authData: action?.data, designation:'faculty'};
     case actionType.GET_FACULTY:
       return { ...state, facultyList: action?.data};
-
+    
     // student
     case actionType.SIGNIN_STUDENT:
       localStorage.setItem('profile', JSON.stringify({ ...action?.data }));
@@ -75,7 +75,11 @@ const authReducer = (
     //logout
     case actionType.LOGOUT:
       localStorage.clear();
-      return { ...state, collegeId: null, designation:'',authData:null};
+      return { ...state, collegeId: null, designation:null,authData:null};
+
+    //SUBJECT
+    case actionType.SUBJECT_LIST:
+      return { ...state, subjectListing:action.data};
 
     default:
       return state;

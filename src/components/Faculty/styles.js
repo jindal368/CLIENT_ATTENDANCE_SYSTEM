@@ -58,10 +58,6 @@ export default makeStyles((theme) => ({
     borderRadius: '0 0 15px 15px',
     backgroundColor: 'aliceblue',
   },
-  purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
-  },
   
   title: {
     fontSize: 14,

@@ -24,6 +24,8 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const formRef = useRef();
   const handleShowPassword = () => setShowPassword(!showPassword);
+  const collegeId = useSelector((state)=>state.attendance.collegeId.collegeSchema.collegeId)
+  
   
   const switchMode = () => {
     setForm({});
@@ -34,7 +36,7 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if(value==='faculty'){
-      dispatch(signInFaculty(form));
+      dispatch(signInFaculty(collegeId,form));
     }
     else{
       if (isSignup) {
