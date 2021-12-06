@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { AppBar, Typography } from "@material-ui/core";
 import useStyles from "./styles";
@@ -20,24 +22,18 @@ export default function Faculty() {
   console.log("User : ", user);
   console.log("collegeId  : ", collegeId);
 
-  return collegeId === null ? (
-    <Redirect to="/" />
-  ) : user === null ? (
-    <Redirect to="/auth" />
-  ) : designation !== "faculty" ? (
-    <Redirect to="/student" />
-  ) : (
+  return (
     <>
       <AppBar
         className={classes.brandContainer}
-        position="static"
-        color="inherit"
+        position='static'
+        color='inherit'
       >
         <div className={classes.brandContainer}>
           <Typography
             className={classes.heading + " " + classes.top}
-            variant="h2"
-            align="center"
+            variant='h2'
+            align='center'
           >
             FACULTY PORTAL
           </Typography>

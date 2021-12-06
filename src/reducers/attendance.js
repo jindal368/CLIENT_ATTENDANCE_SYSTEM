@@ -1,3 +1,5 @@
+/** @format */
+
 import * as actionType from "../constants/actionTypes";
 const initialState = {
   postAttendance: [],
@@ -9,7 +11,7 @@ const initialState = {
   facultyList: [],
   collegeId: null,
   adminSignup: false,
-  designation: "",
+  designation: null,
 };
 const authReducer = (
   state = {
@@ -50,6 +52,7 @@ const authReducer = (
         "collegeId",
         JSON.stringify(action?.data?.collegeSchema?._id)
       );
+      localStorage.setItem("newCollege", JSON.stringify(true));
       return { ...state, collegeId: action.data, adminSignup: true };
     case actionType.FETCH_ALL_COLLEGE:
       return { ...state, collegeList: action.data };
@@ -60,6 +63,7 @@ const authReducer = (
     case actionType.ADD_INITIAL_ADMIN:
       localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
       localStorage.setItem("designation", JSON.stringify("faculty"));
+      localStorage.setItem("newCollege", JSON.stringify(false));
       return { ...state, adminSignup: false, designation: "faculty" };
 
     // faculty

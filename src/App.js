@@ -1,3 +1,5 @@
+/** @format */
+
 import React from "react";
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
@@ -28,14 +30,14 @@ const App = () => {
       : history.push("/student");
   }
   return (
-    <Container maxWidth="xl" style={{ padding: "0", width: "95%" }}>
+    <Container maxWidth='xl' style={{ padding: "0", width: "95%" }}>
       <Navbar />
       <Switch>
-        <Route path="/student" exact component={Student} />
-        <Route path="/faculty" exact component={Faculty} />
-        <Route path="/auth" exact component={Auth} />
-        <Route path="/adminSignup" exact component={AdminSignup} />
-        <Route path="/" exact component={College} />
+        <Route path='/student' exact component={Student} />
+        <Route path='/faculty' exact component={Faculty} />
+        <Route path='/auth' exact component={Auth} />
+        <Route path='/adminSignup' exact component={AdminSignup} />
+        <Route path='/' exact component={College} />
       </Switch>
     </Container>
   );

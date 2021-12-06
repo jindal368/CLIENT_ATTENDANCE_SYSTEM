@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from "axios";
 import env from "react-dotenv";
 const API = axios.create({ baseURL: env.DOMAIN_ADDRESS });
@@ -82,3 +84,10 @@ export const signUp = (formData, collegeId, latitude, longitude) =>
 export const getDataToStudent = () => API.get(`/student/getdatatostudent`);
 
 export const detail = (formData) => API.post("/subject/detail", formData);
+
+//subject
+
+export const subjectCreate = (formData) =>
+  API.post(`/subject/create`, formData);
+
+export const getSubjects = (formData) => API.put(`/subject/list`, formData);

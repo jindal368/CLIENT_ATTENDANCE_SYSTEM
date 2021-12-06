@@ -1,3 +1,5 @@
+/** @format */
+
 export const END_LOADING = "END_LOADING";
 export const START_LOADING = "START_LOADING";
 
@@ -34,4 +36,6 @@ export const GET_DATA_TO_STUDENT = "GET_DATA_TO_STUDENT";
 
 export const RESET_STUDENT = "RESET_STUDENT";
 
-export const SET_COLLEGE_ID = "SET_COLLEGE_ID"
+export const SET_COLLEGE_ID = "SET_COLLEGE_ID";
+
+export const SUBJECT_LIST = "SUBJECT_LIST";

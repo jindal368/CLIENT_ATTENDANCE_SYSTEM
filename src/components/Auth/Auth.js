@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -100,36 +102,28 @@ const SignUp = () => {
     setForm({});
   };
 
-  return collegeId === null || undefined ? (
-    <Redirect to="/" />
-  ) : user !== null ? (
-    designation === "faculty" ? (
-      <Redirect to="/faculty" />
-    ) : (
-      <Redirect to="/student" />
-    )
-  ) : (
+  return (
     <div>
-      <Container component="main" maxWidth="xs">
-        <AppBar position="static" style={{ marginTop: "20px" }}>
+      <Container component='main' maxWidth='xs'>
+        <AppBar position='static' style={{ marginTop: "20px" }}>
           <Tabs
             value={value}
             onChange={handleChange1}
-            aria-label="simple tabs example"
+            aria-label='simple tabs example'
           >
-            <Tab label="Faculty" value={"faculty"} className={classes.head} />
-            <Tab label="Student" value={"student"} className={classes.head} />
+            <Tab label='Faculty' value={"faculty"} className={classes.head} />
+            <Tab label='Student' value={"student"} className={classes.head} />
           </Tabs>
         </AppBar>
       </Container>
 
       {value == "student" ? (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
           <Paper className={classes.paper} elevation={3}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component='h1' variant='h5'>
               {isSignup ? "Sign up" : "Sign in"}
             </Typography>
             <form
@@ -141,29 +135,29 @@ const SignUp = () => {
                 {isSignup && (
                   <>
                     <Input
-                      name="firstName"
-                      label="Name"
+                      name='firstName'
+                      label='Name'
                       handleChange={handleChange}
                       half
                       autoFocus
                     />
                     <Input
-                      name="lastName"
-                      label="Name"
+                      name='lastName'
+                      label='Name'
                       handleChange={handleChange}
                       half
                     />
                   </>
                 )}
                 <Input
-                  name="email"
-                  label="Email Address"
+                  name='email'
+                  label='Email Address'
                   handleChange={handleChange}
-                  type="email"
+                  type='email'
                 />
                 <Input
-                  name="password"
-                  label="Password"
+                  name='password'
+                  label='Password'
                   handleChange={handleChange}
                   type={showPassword ? "text" : "password"}
                   handleShowPassword={handleShowPassword}
@@ -171,44 +165,44 @@ const SignUp = () => {
                 {isSignup && (
                   <>
                     <Input
-                      name="confirmPassword"
-                      label="Repeat Password"
+                      name='confirmPassword'
+                      label='Repeat Password'
                       handleChange={handleChange}
-                      type="password"
+                      type='password'
                     />
                     <Input
-                      name="rollNo"
-                      label="Roll No"
+                      name='rollNo'
+                      label='Roll No'
                       handleChange={handleChange}
-                      type="number"
+                      type='number'
                       half
                     />
                     <Input
-                      name="mobile"
-                      label="Mobile No."
-                      handleChange={handleChange}
-                      half
-                    />
-                    <Input
-                      name="course"
-                      label="Course"
-                      handleChange={handleChange}
-                    />
-                    <Input
-                      name="year"
-                      label="Year"
+                      name='mobile'
+                      label='Mobile No.'
                       handleChange={handleChange}
                       half
                     />
                     <Input
-                      name="semester"
-                      label="Semester"
+                      name='course'
+                      label='Course'
+                      handleChange={handleChange}
+                    />
+                    <Input
+                      name='year'
+                      label='Year'
                       handleChange={handleChange}
                       half
                     />
                     <Input
-                      name="section"
-                      label="Section"
+                      name='semester'
+                      label='Semester'
+                      handleChange={handleChange}
+                      half
+                    />
+                    <Input
+                      name='section'
+                      label='Section'
                       handleChange={handleChange}
                       half
                     />
@@ -216,10 +210,10 @@ const SignUp = () => {
                 )}
               </Grid>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 className={classes.submit}
               >
                 {isSignup ? "Sign Up" : "Sign In"}
@@ -230,23 +224,23 @@ const SignUp = () => {
                 render={(renderProps) => (
                   <Button
                     className={classes.googleButton}
-                    color="primary"
+                    color='primary'
                     fullWidth
                     onClick={renderProps.onClick}
                     disabled={renderProps.disabled}
                     startIcon={<Icon />}
-                    variant="contained"
+                    variant='contained'
                   >
                     Google Sign In
                   </Button>
                 )}
                 onSuccess={googleSuccess}
                 onFailure={googleError}
-                cookiePolicy="single_host_origin"
+                cookiePolicy='single_host_origin'
               />
-              <Grid container justify="center">
+              <Grid container justify='center'>
                 <Grid item>
-                  <Button onClick={switchMode} type="reset">
+                  <Button onClick={switchMode} type='reset'>
                     {isSignup
                       ? "Already have an account? Sign in"
                       : "Don't have an account? Sign Up"}
@@ -257,12 +251,12 @@ const SignUp = () => {
           </Paper>
         </Container>
       ) : (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
           <Paper className={classes.paper} elevation={3}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component='h1' variant='h5'>
               Sign in
             </Typography>
             <form
@@ -272,25 +266,25 @@ const SignUp = () => {
             >
               <Grid container spacing={2}>
                 <Input
-                  name="email"
-                  label="Email Address"
+                  name='email'
+                  label='Email Address'
                   handleChange={handleChange}
-                  type="email"
+                  type='email'
                   autoFocus
                 />
                 <Input
-                  name="password"
-                  label="Password"
+                  name='password'
+                  label='Password'
                   handleChange={handleChange}
                   type={showPassword ? "text" : "password"}
                   handleShowPassword={handleShowPassword}
                 />
               </Grid>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 className={classes.submit}
               >
                 Sign In

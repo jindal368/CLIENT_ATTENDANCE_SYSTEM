@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BusinessRoundedIcon from "@material-ui/icons/BusinessRounded";
@@ -64,70 +66,66 @@ const College = () => {
     setForm({});
   };
 
-  return designation === "faculty" && user !== null ? (
-    <Redirect to="/faculty" />
-  ) : collegeId != null ? (
-    <Redirect to="/student" />
-  ) : (
+  return (
     <div>
-      <Container component="main" maxWidth="xs">
-        <AppBar position="static" style={{ marginTop: "20px" }}>
+      <Container component='main' maxWidth='xs'>
+        <AppBar position='static' style={{ marginTop: "20px" }}>
           <Tabs
             value={value}
             onChange={handleChange1}
-            aria-label="simple tabs example"
+            aria-label='simple tabs example'
           >
-            <Tab label="Register" value={"register"} className={classes.head} />
-            <Tab label="College" value={"college"} className={classes.head} />
+            <Tab label='Register' value={"register"} className={classes.head} />
+            <Tab label='College' value={"college"} className={classes.head} />
           </Tabs>
         </AppBar>
       </Container>
       {value == "register" ? (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
           <Paper className={classes.paper} elevation={3}>
-            <BusinessRoundedIcon color="primary" style={{ fontSize: "60px" }} />
-            <Typography component="h1" variant="h5">
+            <BusinessRoundedIcon color='primary' style={{ fontSize: "60px" }} />
+            <Typography component='h1' variant='h5'>
               {" "}
               Register College
             </Typography>
             <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
               <Grid container spacing={2}>
                 <Input
-                  name="name"
-                  label="College Name"
+                  name='name'
+                  label='College Name'
                   handleChange={handleChange}
                   autoFocus
                 />
                 <Input
-                  name="university"
-                  label="University"
+                  name='university'
+                  label='University'
                   handleChange={handleChange}
-                  type="text"
+                  type='text'
                 />
                 <Input
-                  name="collegeNo"
-                  label="College Code"
+                  name='collegeNo'
+                  label='College Code'
                   handleChange={handleChange}
                   half
                 />
                 <Input
-                  name="AdminMobile"
-                  label="Mobile No."
+                  name='AdminMobile'
+                  label='Mobile No.'
                   handleChange={handleChange}
                   half
                 />
                 <Input
-                  name="address"
-                  label="Address"
+                  name='address'
+                  label='Address'
                   handleChange={handleChange}
-                  type="text"
+                  type='text'
                 />
               </Grid>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 className={classes.submit}
               >
                 Register
@@ -136,29 +134,29 @@ const College = () => {
           </Paper>
         </Container>
       ) : (
-        <Container component="main" maxWidth="xs">
+        <Container component='main' maxWidth='xs'>
           <Paper className={classes.paper} elevation={3}>
-            <BusinessRoundedIcon color="primary" style={{ fontSize: "60px" }} />
-            <Typography component="h1" variant="h5">
+            <BusinessRoundedIcon color='primary' style={{ fontSize: "60px" }} />
+            <Typography component='h1' variant='h5'>
               {" "}
               Select Your College
             </Typography>
             <FormControl
-              variant="outlined"
+              variant='outlined'
               style={{ width: "80%", margin: "10px" }}
               error={isError}
             >
-              <InputLabel id="demo-simple-select-outlined-label">
+              <InputLabel id='demo-simple-select-outlined-label'>
                 College
               </InputLabel>
               <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
+                labelId='demo-simple-select-outlined-label'
+                id='demo-simple-select-outlined'
                 value={collegeSelect}
                 onChange={(e) => setCollegeSelect(e.target.value)}
-                label="College"
+                label='College'
               >
-                <MenuItem value="">
+                <MenuItem value=''>
                   <em>None</em>
                 </MenuItem>
                 {collegelist?.collegeSchema?.map((college, index) => {
@@ -172,10 +170,10 @@ const College = () => {
               <FormHelperText>Required</FormHelperText>
             </FormControl>
             <Button
-              type="submit"
+              type='submit'
               fullWidth
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               className={classes.submit}
               onClick={handleCollege}
             >
