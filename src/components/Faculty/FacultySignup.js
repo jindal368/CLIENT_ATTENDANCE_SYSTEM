@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BusinessRoundedIcon from "@material-ui/icons/BusinessRounded";
@@ -70,43 +72,43 @@ const FacultySignup = ({ collegeId }) => {
   };
 
   return (
-    <ReactCardFlip isFlipped={isFlip} flipDirection="horizontal">
+    <ReactCardFlip isFlipped={isFlip} flipDirection='horizontal'>
       <Card className={classes.root} onClick={fliphandler}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
             image={facultyImage}
-            title="Contemplative Reptile"
+            title='Contemplative Reptile'
           />
           <CardContent>
             <Typography
               gutterBottom
               style={{ fontSize: "25px" }}
-              component="h2"
+              component='h2'
             >
               Faculty Add or Remove
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant='body2' color='textSecondary' component='p'>
               Click to Add or Remove a faculty
             </Typography>
           </CardContent>
         </CardActionArea>
       </Card>
       <div>
-        <AppBar position="static" style={{ width: "360px" }}>
+        <AppBar position='static' style={{ width: "360px" }}>
           <Tabs
             value={value}
             onChange={handleChange1}
-            aria-label="simple tabs example"
+            aria-label='simple tabs example'
           >
-            <Tab label="Signup" value={"signup"} className={classes.head} />
-            <Tab label="Remove" value={"remove"} className={classes.head} />
+            <Tab label='Signup' value={"signup"} className={classes.head} />
+            <Tab label='Remove' value={"remove"} className={classes.head} />
           </Tabs>
         </AppBar>
         {value == "signup" ? (
           <Paper className={classes.paper} elevation={3}>
-            <BusinessRoundedIcon color="primary" style={{ fontSize: "60px" }} />
-            <Typography component="h1" variant="h5">
+            <BusinessRoundedIcon color='primary' style={{ fontSize: "60px" }} />
+            <Typography component='h1' variant='h5'>
               Faculty SignUp
             </Typography>
             <form
@@ -116,69 +118,69 @@ const FacultySignup = ({ collegeId }) => {
             >
               <Grid container spacing={2}>
                 <Input
-                  name="firstName"
-                  label="First Name"
+                  name='firstName'
+                  label='First Name'
                   handleChange={handleChange}
                   autoFocus
                   half
                 />
                 <Input
-                  name="lastName"
-                  label="Last Name"
+                  name='lastName'
+                  label='Last Name'
                   handleChange={handleChange}
                   half
                 />
                 <Input
-                  name="email"
-                  label="Email"
+                  name='email'
+                  label='Email'
                   handleChange={handleChange}
-                  type="email"
+                  type='email'
                 />
                 <Input
-                  name="mobile"
-                  label="Mobile No."
-                  handleChange={handleChange}
-                  half
-                />
-                <Input
-                  name="department"
-                  label="Department"
+                  name='mobile'
+                  label='Mobile No.'
                   handleChange={handleChange}
                   half
                 />
                 <Input
-                  name="address"
-                  label="Address"
+                  name='department'
+                  label='Department'
+                  handleChange={handleChange}
+                  half
+                />
+                <Input
+                  name='address'
+                  label='Address'
                   handleChange={handleChange}
                 />
                 <Input
-                  name="password"
-                  label="Password"
+                  name='password'
+                  label='Password'
                   handleChange={handleChange}
                   type={showPassword ? "text" : "password"}
                   handleShowPassword={handleShowPassword}
                 />
                 <Input
-                  name="confirmPassword"
-                  label="Repeat Password"
+                  name='confirmPassword'
+                  label='Repeat Password'
                   handleChange={handleChange}
-                  type="password"
+                  type='password'
                 />
               </Grid>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 className={classes.submit}
               >
                 Register
               </Button>
               <Button
                 fullWidth
-                type="reset"
-                variant="contained"
-                color="secondary"
+                type='reset'
+                variant='contained'
+                color='secondary'
                 className={classes.submit}
                 onClick={fliphandler}
                 style={{ marginTop: "0px" }}
@@ -200,8 +202,8 @@ const FacultySignup = ({ collegeId }) => {
           </Paper>
         ) : (
           <Paper className={classes.paper} elevation={3}>
-            <BusinessRoundedIcon color="primary" style={{ fontSize: "60px" }} />
-            <Typography component="h1" variant="h5">
+            <BusinessRoundedIcon color='primary' style={{ fontSize: "60px" }} />
+            <Typography component='h1' variant='h5'>
               Faculty Remove
             </Typography>
             <form
@@ -211,27 +213,27 @@ const FacultySignup = ({ collegeId }) => {
             >
               <Grid container spacing={1}>
                 <Input
-                  name="email"
-                  label="Email"
+                  name='email'
+                  label='Email'
                   handleChange={handleChange}
-                  type="email"
+                  type='email'
                   autoFocus
                 />
               </Grid>
               <Button
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='primary'
                 className={classes.submit}
               >
                 Remove
               </Button>
               <Button
                 fullWidth
-                type="reset"
-                variant="contained"
-                color="secondary"
+                type='reset'
+                variant='contained'
+                color='secondary'
                 className={classes.submit}
                 onClick={fliphandler}
                 style={{ marginTop: "0px" }}

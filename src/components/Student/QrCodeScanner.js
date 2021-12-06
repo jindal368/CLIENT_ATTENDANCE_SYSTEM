@@ -5,7 +5,7 @@ import useStyles from './styles';
 import ReactCardFlip from 'react-card-flip';
 import qrImage from '../../images/qrcode.png';
 import QrReader from 'react-qr-scanner'
-import {updateStudent} from '../../actions/attendance'
+import {getAttendanceById} from '../../actions/attendance'
   
 
 const QrCodeScanner = () =>{
@@ -13,38 +13,33 @@ const QrCodeScanner = () =>{
     const [isFlip, setIsFlip] = useState(false);
     const classes = useStyles();    
     const dispatch  = useDispatch();
-    const user = useSelector((state)=>state.auth)
+    const user = useSelector((state)=>state.attendance.authData.result)
     const [id , setId] = useState('');
-    const data = {
-      _id : id,
-      data : user?.authData?.result
-    }
 
     var handleResponse = (res) =>{
         console.log("response : ",res)
         const data = {
           _id : res?.text,
-          data : user?.authData?.result
+          data : user
         }
-        // return(
-        // res?.text ?
-        // <div>
-        //     <div style={{color:'green'}}>
-        //     {console.log("Data After sacn : ",data)}
-        //     { dispatch(updateStudent(data))
-        //     .then(() =>{
-        //         setScanned(1)
-        //         fliphandler()
-        //     })
-        //     .catch((err) =>{
-        //         setScanned(2);
-        //         fliphandler()
-        //     })}
-        //     </div>
-        //     </div>
-        //     :
-        //     <div/>
-        // )
+        return(
+        res?.text ?
+        <div>
+            <div>
+            { dispatch(getAttendanceById(data))
+            .then(() =>{
+                setScanned(1)
+                fliphandler()
+            })
+            .catch((err) =>{
+                setScanned(2);
+                fliphandler()
+            })}
+            </div>
+            </div>
+            :
+            <div/>
+        )
     }
      
 

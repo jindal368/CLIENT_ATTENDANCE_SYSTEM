@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useEffect } from "react";
 import {
   AppBar,
@@ -43,18 +45,18 @@ const Navbar = () => {
   }, [location]);
 
   return (
-    <AppBar className={classes.appBar} position="static" color="inherit">
+    <AppBar className={classes.appBar} position='static' color='inherit'>
       <div className={classes.brandContainer}>
         <Typography
           component={Link}
-          to="/"
+          to='/'
           className={classes.heading}
-          variant="h2"
-          align="center"
+          variant='h2'
+          align='center'
         >
           ATTENDANCE PORTAL
         </Typography>
-        <img className={classes.image} src={icon} alt="icon" height="60" />
+        <img className={classes.image} src={icon} alt='icon' height='60' />
       </div>
       <Toolbar className={classes.toolbar}>
         {user?.result ? (
@@ -66,13 +68,13 @@ const Navbar = () => {
             >
               {user?.result.name.charAt(0)}
             </Avatar>
-            <Typography className={classes.userName} variant="h6">
+            <Typography className={classes.userName} variant='h6'>
               {user?.result.name}
             </Typography>
             <Button
-              variant="contained"
+              variant='contained'
               className={classes.logout}
-              color="secondary"
+              color='secondary'
               onClick={logout}
             >
               Logout
@@ -81,9 +83,9 @@ const Navbar = () => {
         ) : (
           <Button
             component={Link}
-            to="/auth"
-            variant="contained"
-            color="primary"
+            to='/auth'
+            variant='contained'
+            color='primary'
           >
             Sign In
           </Button>

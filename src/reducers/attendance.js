@@ -34,7 +34,10 @@ const authReducer = (
     case actionType.GET_ATTENDANCE:
       return { ...state, getAttendanceById: action.payload.data };
     case actionType.FETCH_LIST_TO_FACULTY:
-      return { ...state, fetchAllAttendance: action.data };
+      return {
+        ...state,
+        fetchAllAttendance: action.data.attendanceSchema.reverse(),
+      };
     case actionType.GET_DETAIL_TO_ADMIN:
       return { ...state, detailToAdmin: action.payload.data };
     case actionType.UPDATE_STUDENT:
@@ -85,7 +88,11 @@ const authReducer = (
     //logout
     case actionType.LOGOUT:
       localStorage.clear();
-      return { ...state, collegeId: null, designation: "", authData: null };
+      return { ...state, collegeId: null, designation: null, authData: null };
+
+    //SUBJECT
+    case actionType.SUBJECT_LIST:
+      return { ...state, subjectListing: action.data };
 
     default:
       return state;

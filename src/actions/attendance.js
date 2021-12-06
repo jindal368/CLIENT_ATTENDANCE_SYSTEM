@@ -1,195 +1,86 @@
-import {
-  POST_ATTENDANCE,
-  GET_ATTENDANCE,
-  GET_DETAIL_TO_ADMIN,
-  FETCH_LIST_TO_FACULTY,
-  UPDATE_STUDENT,
-  EXPIRE_SUBJECT,
-  ADD_COLLEGE,
-  ADD_INITIAL_ADMIN,
-  GET_COLLEGE_DATA,
-  FETCH_ALL_COLLEGE,
-  SIGNIN_FACULTY,
-  SIGNUP_FACULTY,
-  GET_FACULTY,
-  REMOVE_FACULTY,
-  MAKE_ADMIN,
-  REMOVE_ADMIN,
-  SIGNIN_STUDENT,
-  SIGNUP_STUDENT,
-  GET_DATA_TO_STUDENT,
-  LOGOUT,
-  RESET_STUDENT,
-} from "../constants/actionTypes";
-import * as api from "../api/index.js";
+/** @format */
 
-export const postattendancedata =
-  (formData, collegeId, latitude, longitude) => async (dispatch) => {
-    try {
-      const { data } = await api.postAttendanceData(
-        formData,
-        collegeId,
-        latitude,
-        longitude
-      );
+import axios from "axios";
+import env from "react-dotenv";
+const API = axios.create({ baseURL: env.DOMAIN_ADDRESS });
 
-      dispatch({ type: POST_ATTENDANCE, data });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
 
-export const getAttendanceById = (attendanceId) => async (dispatch) => {
-  try {
-    const { data } = await api.getAttendanceById(attendanceId);
-    console.log("Data in actions : ", data);
-    dispatch({ type: GET_ATTENDANCE, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const getDetailToAdmin =
-  (course, section, semester, year, subject) => async (dispatch) => {
-    try {
-      const { data } = await api.getDetailToAdmin(
-        course,
-        section,
-        semester,
-        year,
-        subject
-      );
-      console.log("Data in actions : ", data);
-      dispatch({ type: GET_DETAIL_TO_ADMIN, data });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-export const fetchAllListToFaculty = (email) => async (dispatch) => {
-  try {
-    const { data } = await api.fetchAllListToFaculty(email);
-    console.log("Data in actions : ", data);
-    dispatch({ type: FETCH_LIST_TO_FACULTY, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  return req;
+});
 
-export const updateStudentData = (listingId, email) => async (dispatch) => {
-  try {
-    const { data } = await api.updateStudentData(listingId, email);
-    console.log("Data in actions : ", data);
-    dispatch({ type: UPDATE_STUDENT, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const expireRetrieveSubject = (listingId) => async (dispatch) => {
-  try {
-    const { data } = await api.expireRetrieveSubject(listingId);
-    console.log("Data in actions : ", data);
-    dispatch({ type: EXPIRE_SUBJECT, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const resetStudent = () => async (dispatch) => {
-  try {
-    dispatch({ type: RESET_STUDENT });
-    console.log("Dispatch : reset :");
-  } catch (error) {
-    console.log(error);
-  }
-};
-// export const updateStudent = (studentData) => async (dispatch) => {
-//   try {
-//     const { data } = await api.updateStudentData(studentData);
-//     console.log("Data in actions : ", data);
-//     dispatch({ type: UPDATE_STUDENT, data });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+//Attendance API
 
-export const addCollege = (formData) => async (dispatch) => {
-  try {
-    const { data } = await api.addCollege(formData);
+export const postAttendanceData = (formData, collegeId, latitude, longitude) =>
+  API.post(
+    `/attendance/postattendancedata?id=${collegeId}&latitude=${latitude}&longitude=${longitude}`,
+    formData
+  );
 
-    dispatch({ type: ADD_COLLEGE, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const getAttendanceById = (attendanceId) =>
+  API.get(`/attendance/getattendancebyid?id=${attendanceId}`);
 
-export const fetchAllCollege = () => async (dispatch) => {
-  try {
-    const { data } = await api.fetchAllCollege();
-    console.log("Data in actions : ", data);
-    dispatch({ type: FETCH_ALL_COLLEGE, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const getDetailToAdmin = (course, section, semester, year, subject) =>
+  API.get(
+    `/attendance/getdetailtoadmin?course=${course}&semester=${semester}&section=${section}&year=${year}&subject=${subject}`
+  );
 
-export const addInitialAdmin = (formedData, collegeId) => async (dispatch) => {
-  try {
-    const { data } = await api.addInitialAdmin(formedData, collegeId);
-    console.log("Data in actions : ", data);
-    dispatch({ type: ADD_INITIAL_ADMIN, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const fetchAllListToFaculty = (email) =>
+  API.get(`/attendance/fetchalllistbyfaculty?email=${email}`);
 
-// FACULTY ACTION
+export const updateStudentData = (listingId, studentEmail) =>
+  API.patch(`/attendance/updatestudent?_id=${listingId}&email=${studentEmail}`);
 
-export const signInFaculty = (formedData, collegeId) => async (dispatch) => {
-  try {
-    const { data } = await api.signInFaculty(formedData, collegeId);
-    console.log("Data in actions : ", data);
-    dispatch({ type: SIGNIN_FACULTY, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const signUpFaculty = (formedData, collegeId) => async () => {
-  try {
-    const { data } = await api.signUpFaculty(formedData, collegeId);
-    console.log("Data in actions : ", data);
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const removeFaculty = (email) => async () => {
-  try {
-    const { data } = await api.removeFaculty(email);
-    console.log("Data in actions : ", data);
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const getFaculty = (collegeId) => async (dispatch) => {
-  try {
-    const { data } = await api.getFaculty(collegeId);
-    console.log("Data in actions : ", data);
+export const expireRetrieveSubject = (listingId) =>
+  API.put(`/attendance/expiresubject?id=${listingId}`);
 
-    dispatch({ type: GET_FACULTY, data });
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const makeAdmin = (email) => async () => {
-  try {
-    const { data } = await api.makeAdmin(email);
-    console.log("Data in actions : ", data);
-  } catch (error) {
-    console.log(error);
-  }
-};
-export const removeAdmin = (email) => async () => {
-  try {
-    const { data } = await api.removeAdmin(email);
-    console.log("Data in actions : ", data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+// college API
+
+export const addCollege = (formData) =>
+  API.post(`/college/addcollege`, formData);
+export const addInitialAdmin = (formData, collegeId) =>
+  API.post(`/college/addinitialadmin?id=${collegeId}`, formData);
+
+export const getCollegeData = (id) => API.get(`/college/getdata?id=${id}`);
+
+export const fetchAllCollege = () => API.get(`/college/fetchcollege`);
+
+// Faculty API
+
+export const signInFaculty = (formData, collegeId) =>
+  API.post(`/faculty/signin?id=${collegeId}`, formData);
+export const signUpFaculty = (formData, collegeId) =>
+  API.post(`/faculty/signup?id=${collegeId}`, formData);
+export const getFaculty = (collegeId) =>
+  API.get(`/faculty/getfaculty?collegeId=${collegeId}`);
+
+export const removeFaculty = (email) =>
+  API.put(`/faculty/removefaculty?email=${email}`);
+
+export const makeAdmin = (email) =>
+  API.put(`/faculty/makeAdmin?email=${email}`);
+
+export const removeAdmin = (email) =>
+  API.put(`/faculty/removeadmin?email=${email}`);
+
+// Student API
+
+export const signIn = (formData, latitude, longitude) =>
+  API.post(
+    `/student/signin?latitude=${latitude}&longitude=${longitude}`,
+    formData
+  );
+export const signUp = (formData, collegeId, latitude, longitude) =>
+  API.post(
+    `/student/signup?id=${collegeId}&latitude=${latitude}&longitude=${longitude}`,
+    formData
+  );
+
+export const getDataToStudent = () => API.get(`/student/getdatatostudent`);
+
+export const detail = (formData) => API.post("/subject/detail", formData);

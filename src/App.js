@@ -23,7 +23,7 @@ const App = () => {
       ? history.push("/")
       : adminSignup
       ? history.push("/adminSignup")
-      : designation === ""
+      : designation === null
       ? history.push("/auth")
       : designation === "faculty"
       ? history.push("/faculty")

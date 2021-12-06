@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,12 +12,13 @@ import {
   Avatar,
   Button,
   CardActions,
+  AppBar,
 } from "@material-ui/core";
 import useStyles from "./styles";
 import ReactCardFlip from "react-card-flip";
 import report from "../../images/report.png";
-import QrCodeGenerator from "../util/QrCodeGenerator";
-import Calendar from "react-calendar";
+import DatePicker from "sassy-datepicker";
+import { fetchAllListToFaculty } from "../../actions/attendance";
 
 const StudentReport = ({ collegeId }) => {
   const [isFlip, setIsFlip] = useState(false);
@@ -37,10 +40,10 @@ const StudentReport = ({ collegeId }) => {
           <CardContent>
             <QrCodeGenerator value={data._id} />
             <br />
-            <Typography color="red" gutterBottom>
+            <Typography color='red' gutterBottom>
               Date : {new Date(data.date).toLocaleString("en-US")}
             </Typography>
-            <Typography color="red" gutterBottom>
+            <Typography color='red' gutterBottom>
               Subject : {data.subject}
             </Typography>
             <Typography>
@@ -57,7 +60,7 @@ const StudentReport = ({ collegeId }) => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="medium" style={{ color: "blue" }}>
+            <Button size='medium' style={{ color: "blue" }}>
               Import As CSV
             </Button>
           </CardActions>
@@ -89,20 +92,20 @@ const StudentReport = ({ collegeId }) => {
   };
 
   return (
-    <ReactCardFlip isFlipped={isFlip} flipDirection="horizontal">
+    <ReactCardFlip isFlipped={isFlip} flipDirection='horizontal'>
       <Card className={classes.root} onClick={fliphandler}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
             image={report}
-            title="Contemplative Reptile"
+            title='Contemplative Reptile'
             style={{ backgroundSize: "380px" }}
           />
           <CardContent>
-            <Typography gutterBottom variant="h4" component="h2">
+            <Typography gutterBottom variant='h4' component='h2'>
               Student Report
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant='body2' color='textSecondary' component='p'>
               Click to Check the detail of the students
             </Typography>
           </CardContent>
@@ -118,8 +121,8 @@ const StudentReport = ({ collegeId }) => {
           >
             <Button
               fullWidth
-              variant="contained"
-              color="secondary"
+              variant='contained'
+              color='secondary'
               onClick={fliphandler}
             >
               Cancel

@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GrUserAdmin } from "react-icons/gr";
@@ -47,19 +49,19 @@ const FacultyList = ({ collegeId }) => {
   };
 
   return (
-    <ReactCardFlip isFlipped={isFlip} flipDirection="horizontal">
+    <ReactCardFlip isFlipped={isFlip} flipDirection='horizontal'>
       <Card className={classes.root} onClick={fliphandler}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
             image={facultyListIcon}
-            title="Contemplative Reptile"
+            title='Contemplative Reptile'
           />
           <CardContent>
-            <Typography gutterBottom variant="h4" component="h2">
+            <Typography gutterBottom variant='h4' component='h2'>
               List of Faculty
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant='body2' color='textSecondary' component='p'>
               Click to get the list of Faculty
             </Typography>
           </CardContent>
@@ -72,14 +74,14 @@ const FacultyList = ({ collegeId }) => {
             elevation={3}
             style={{ padding: "0" }}
           >
-            <AppBar position="static" style={{ padding: 10 }}>
-              <Typography component="h2" variant="h4" onClick={fliphandler}>
+            <AppBar position='static' style={{ padding: 10 }}>
+              <Typography component='h2' variant='h4' onClick={fliphandler}>
                 <center>FacultyList</center>
               </Typography>
             </AppBar>
             <List
-              component="nav"
-              aria-label="main mailbox folders"
+              component='nav'
+              aria-label='main mailbox folders'
               className={classes.list}
             >
               {facultyList?.facultySchema?.map((faculty) => {
