@@ -22,6 +22,7 @@ import {
   GET_DATA_TO_STUDENT,
   LOGOUT,
   RESET_STUDENT,
+  SUBJECT_LIST,
 } from "../constants/actionTypes";
 import * as api from "../api/index.js";
 
@@ -191,6 +192,26 @@ export const removeAdmin = (email) => async () => {
   try {
     const { data } = await api.removeAdmin(email);
     console.log("Data in actions : ", data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+// subject
+
+export const subjectCreate = (formData) => async () => {
+  try {
+    const { data } = await api.subjectCreate(formData);
+    console.log("Data in actions : ", data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const getSubjects = (formData) => async (dispatch) => {
+  try {
+    const { data } = await api.getSubjects(formData);
+    console.log("Data in actions : ", data);
+
+    dispatch({ type: SUBJECT_LIST, data });
   } catch (error) {
     console.log(error);
   }

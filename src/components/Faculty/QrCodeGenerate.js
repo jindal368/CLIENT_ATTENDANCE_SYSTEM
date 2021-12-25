@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
@@ -35,25 +35,39 @@ const QrCodeGenerate = () => {
   // const [resultArray , setResultArray] = useState([{"_id":"61a0c6188193db26933faf9f"}])
   const [isShow, setIsShow] = useState(false);
   const [isFlip, setIsFlip] = useState(false);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
   const [showSubject, setShowSubject] = useState(false);
   const fetchAllAttendance = useSelector(
     (state) => state.attendance?.fetchAllAttendance[0]
   );
   const user = useSelector((state) => state.attendance.authData);
-  const collegeId = useSelector(
-    (state) => state.attendance?.collegeId.collegeSchema.collegeId
-  );
+  const collegeId = JSON.parse(localStorage.getItem("collegeId"));
   const subjectList = useSelector(
     (state) => state.attendance.subjectListing?.result?.subjects
   );
   const classes = useStyles();
   const formRef = useRef();
   const dispatch = useDispatch();
+  function getLocation() {
+    console.log("GEtLocation running");
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLatitude(position.coords.latitude);
+      setLongitude(position.coords.longitude);
+      console.log("Latitude : ", latitude);
+      console.log("Longitude : ", longitude);
+    });
+  }
+
+  useEffect(() => {
+    getLocation();
+  }, dispatch);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (showSubject) {
       const data = {
-        facultyEmail: user.result.email,
+        facultyEmail: user?.result?.email,
         course: form.course,
         year: form.year,
         semester: form.sem,
@@ -61,7 +75,7 @@ const QrCodeGenerate = () => {
         subject: attendanceData.subject,
       };
       console.log("post data", data);
-      dispatch(postattendancedata(data, collegeId, 27.2046, 77.4977))
+      dispatch(postattendancedata(data, collegeId, latitude, longitude))
         .then((res) => {
           console.log("attendance Posted ");
           fetchData();
@@ -79,7 +93,7 @@ const QrCodeGenerate = () => {
       };
       dispatch(getSubjects(data))
         .then((res) => {
-          console.log("get Subject ");
+          console.log("get Subject ", res);
           setShowSubject(true);
         })
         .catch((err) => {

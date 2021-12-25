@@ -2,18 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+
+    <link rel="icon" type="image/png" href="./icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="icon" type="image/png" href="./icon.png" />
+    <meta name="description" content="Modern PWA react app" />
+    <link rel="apple-touch-icon" href="./icon.png" />
+
+    <link rel="manifest" href="./manifest.json" />
+    <script
+      data-ad-client="ca-pub-5855556690267978"
+      async=""
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script>
     <title>smart Attendace System</title>
     <script id="react-dotenv" src="./env.js"></script>
   </head>
   <body>
     <div id="root"></div>
     <div id="demo"></div>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("./serviceworker.js")
+            .then((reg) => console.log("Success : ", reg.scope))
+            .catch((err) => console.log("Error : ", err));
+        });
+      }
+    </script>
   </body>
 </html>

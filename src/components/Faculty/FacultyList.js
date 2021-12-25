@@ -28,7 +28,7 @@ const FacultyList = ({ collegeId }) => {
 
   const dispatch = useDispatch();
   const facultyList = useSelector((state) => state.attendance.facultyList);
-
+  const user = JSON.parse(localStorage.getItem("profile"));
   console.log("FacultyList L:", facultyList);
   useEffect(() => {
     dispatch(getFaculty(collegeId));
@@ -86,18 +86,25 @@ const FacultyList = ({ collegeId }) => {
             >
               {facultyList?.facultySchema?.map((faculty) => {
                 return (
-                  <ListItem key={faculty._id} style={{ display: "flex" }}>
-                    <Avatar
-                      className={classes.purple}
-                      alt={faculty.name}
-                      src={faculty.name}
-                    >
-                      {faculty.name.charAt(0).toUpperCase()}
-                    </Avatar>
-                    <ListItemText primary={faculty.name.toUpperCase()} />
-                    {faculty.isVerified ? <GoVerified /> : <GoUnverified />}
-                    {faculty.isAdmin ? <GrUserAdmin /> : ""}
-                  </ListItem>
+                  <div
+                    style={{
+                      backgroundColor:
+                        faculty._id === user.result._id ? "grey" : "white",
+                    }}
+                  >
+                    <ListItem key={faculty._id} style={{ display: "flex" }}>
+                      <Avatar
+                        className={classes.purple}
+                        alt={faculty.name}
+                        src={faculty.name}
+                      >
+                        {faculty.name.charAt(0).toUpperCase()}
+                      </Avatar>
+                      <ListItemText primary={faculty.name.toUpperCase()} />
+                      {faculty.isVerified ? <GoVerified /> : <GoUnverified />}
+                      {faculty.isAdmin ? <GrUserAdmin /> : ""}
+                    </ListItem>
+                  </div>
                 );
               })}
             </List>

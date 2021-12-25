@@ -73,7 +73,7 @@ const SignUp = () => {
         dispatch(signup(form, collegeId, latitude, longitude));
       } else {
         dispatch(signin(form, latitude, longitude))
-          .then(() => history.push("/auth"))
+          .then(() => history.push("/student"))
           .catch((err) => console.log(err));
       }
     }
