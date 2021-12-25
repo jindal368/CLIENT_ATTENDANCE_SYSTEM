@@ -1,26 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.1ef1f048.chunk.css",
-    "main.js": "/static/js/main.710f0296.chunk.js",
-    "main.js.map": "/static/js/main.710f0296.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.20628b47.js",
-    "runtime-main.js.map": "/static/js/runtime-main.20628b47.js.map",
-    "static/css/2.3d12fffb.chunk.css": "/static/css/2.3d12fffb.chunk.css",
-    "static/js/2.44496b13.chunk.js": "/static/js/2.44496b13.chunk.js",
-    "static/js/2.44496b13.chunk.js.map": "/static/js/2.44496b13.chunk.js.map",
+    "main.css": "/static/css/main.411ff1e4.chunk.css",
+    "main.js": "/static/js/main.72f00065.chunk.js",
+    "main.js.map": "/static/js/main.72f00065.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4064ab1e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4064ab1e.js.map",
+    "static/js/2.3ffea418.chunk.js": "/static/js/2.3ffea418.chunk.js",
+    "static/js/2.3ffea418.chunk.js.map": "/static/js/2.3ffea418.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.90b514b2fdb9654c58ff85e60b1ff688.js": "/precache-manifest.90b514b2fdb9654c58ff85e60b1ff688.js",
+    "precache-manifest.3aaaffaecc6bef0d8e80428246f938ad.js": "/precache-manifest.3aaaffaecc6bef0d8e80428246f938ad.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/2.3d12fffb.chunk.css.map": "/static/css/2.3d12fffb.chunk.css.map",
-    "static/css/main.1ef1f048.chunk.css.map": "/static/css/main.1ef1f048.chunk.css.map",
-    "static/js/2.44496b13.chunk.js.LICENSE.txt": "/static/js/2.44496b13.chunk.js.LICENSE.txt",
-    "static/media/icon.png": "/static/media/icon.95c75781.png"
+    "static/css/main.411ff1e4.chunk.css.map": "/static/css/main.411ff1e4.chunk.css.map",
+    "static/js/2.3ffea418.chunk.js.LICENSE.txt": "/static/js/2.3ffea418.chunk.js.LICENSE.txt",
+    "static/media/admin.jpg": "/static/media/admin.9d93b940.jpg",
+    "static/media/faculty.png": "/static/media/faculty.a43e7c5d.png",
+    "static/media/facultyList.jfif": "/static/media/facultyList.e13fdcf2.jfif",
+    "static/media/icon.png": "/static/media/icon.95c75781.png",
+    "static/media/qrcode.png": "/static/media/qrcode.7a6ccd18.png",
+    "static/media/report.png": "/static/media/report.1002a11d.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.20628b47.js",
-    "static/css/2.3d12fffb.chunk.css",
-    "static/js/2.44496b13.chunk.js",
-    "static/css/main.1ef1f048.chunk.css",
-    "static/js/main.710f0296.chunk.js"
+    "static/js/runtime-main.4064ab1e.js",
+    "static/js/2.3ffea418.chunk.js",
+    "static/css/main.411ff1e4.chunk.css",
+    "static/js/main.72f00065.chunk.js"
   ]
 }
