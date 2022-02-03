@@ -11,6 +11,7 @@ import FacultySignup from "./FacultySignup";
 import QrCodeGenerate from "./QrCodeGenerate";
 import FacultyList from "./FacultyList";
 import StudentReport from "./StudentReport";
+import VerifyMessage from "../VerifyMessage/VerifyMessage";
 
 export default function Faculty() {
   var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
@@ -43,12 +44,18 @@ export default function Faculty() {
       <br />
 
       <div className={classes.contain}>
-        {isAdmin ? <AdminAdd collegeId={collegeId} /> : <div />}
-        {isAdmin ? <FacultySignup collegeId={collegeId} /> : <div />}
-        {isAdmin ? <AddSubject collegeId={collegeId} /> : <div />}
-        <QrCodeGenerate collegeId={collegeId} />
-        <StudentReport collegeId={collegeId} />
-        <FacultyList collegeId={collegeId} />
+        {user?.result?.isVerified ? (
+          <>
+            {isAdmin ? <AdminAdd collegeId={collegeId} /> : <div />}
+            {isAdmin ? <FacultySignup collegeId={collegeId} /> : <div />}
+            {isAdmin ? <AddSubject collegeId={collegeId} /> : <div />}
+            <QrCodeGenerate collegeId={collegeId} />
+            <StudentReport collegeId={collegeId} />
+            <FacultyList collegeId={collegeId} />
+          </>
+        ) : (
+          <VerifyMessage type={"faculty"} />
+        )}
       </div>
     </>
   );

@@ -28,6 +28,7 @@ import {
   getSubjects,
 } from "../../actions/attendance";
 import Input from "../Auth/Input";
+import Modal from "./Modal";
 
 const QrCodeGenerate = () => {
   const [form, setForm] = useState({});
@@ -36,10 +37,11 @@ const QrCodeGenerate = () => {
   const [isShow, setIsShow] = useState(false);
   const [isFlip, setIsFlip] = useState(false);
   const [latitude, setLatitude] = useState();
+
   const [longitude, setLongitude] = useState();
   const [showSubject, setShowSubject] = useState(false);
   const fetchAllAttendance = useSelector(
-    (state) => state.attendance?.fetchAllAttendance[0]
+    (state) => state.attendance?.fetchAllAttendance
   );
   const user = useSelector((state) => state.attendance.authData);
   const collegeId = JSON.parse(localStorage.getItem("collegeId"));
@@ -59,10 +61,11 @@ const QrCodeGenerate = () => {
       console.log("Longitude : ", longitude);
     });
   }
-
   useEffect(() => {
     getLocation();
-  }, dispatch);
+    if (user?.result.email !== undefined)
+      dispatch(fetchAllListToFaculty(user?.result.email));
+  }, [fetchAllAttendance]);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (showSubject) {
@@ -73,8 +76,10 @@ const QrCodeGenerate = () => {
         semester: form.sem,
         section: form.section,
         subject: attendanceData.subject,
+        validTime: Date.now(),
       };
       console.log("post data", data);
+
       dispatch(postattendancedata(data, collegeId, latitude, longitude))
         .then((res) => {
           console.log("attendance Posted ");
@@ -103,7 +108,8 @@ const QrCodeGenerate = () => {
   };
 
   const fetchData = () => {
-    dispatch(fetchAllListToFaculty(user.result.email))
+    console.log("Email :::::", user?.result.email);
+    dispatch(fetchAllListToFaculty(user?.result.email))
       .then((res) => {
         console.log("fetch All List to Faculty");
         setShowSubject(false);
@@ -127,10 +133,11 @@ const QrCodeGenerate = () => {
     setIsShow(!isShow);
   };
   const showQRCode = () => {
+    console.log("Email :::::", user?.result.email);
     if (!fetchAllAttendance?.length) {
       dispatch(fetchAllListToFaculty(user.result.email))
         .then((res) => {
-          console.log("fetch All List to Faculty");
+          console.log("fetch All List to Faculty", res);
           setIsShow(!isShow);
         })
         .catch((err) => {
@@ -143,7 +150,12 @@ const QrCodeGenerate = () => {
   return (
     <div>
       <ModalBox isOpen={isShow} modalClosed={ModalOpen}>
-        <QrCodeGenerator value={fetchAllAttendance?._id} />
+        {fetchAllAttendance?.length ? (
+          // <QrCodeGenerator value={fetchAllAttendance[0]?._id} />
+          <Modal facultyListing={fetchAllAttendance} setIsShow={setIsShow} />
+        ) : (
+          <h1>NoData Found</h1>
+        )}
       </ModalBox>
       <ReactCardFlip isFlipped={isFlip} flipDirection='horizontal'>
         <Card className={classes.root}>
@@ -168,7 +180,7 @@ const QrCodeGenerate = () => {
           </CardActionArea>
           <CardActions>
             <Button size='medium' color='primary' onClick={showQRCode}>
-              Show QRCode
+              Show History
             </Button>
           </CardActions>
         </Card>

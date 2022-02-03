@@ -23,13 +23,14 @@ import {
   LOGOUT,
   RESET_STUDENT,
   SUBJECT_LIST,
+  UPDATE_TIME,
 } from "../constants/actionTypes";
 import * as api from "../api/index.js";
 
 export const postattendancedata =
   (formData, collegeId, latitude, longitude) => async (dispatch) => {
     try {
-      const { data } = await api.postAttendanceData(
+      const { data, status } = await api.postAttendanceData(
         formData,
         collegeId,
         latitude,
@@ -37,6 +38,7 @@ export const postattendancedata =
       );
 
       dispatch({ type: POST_ATTENDANCE, data });
+      return status;
     } catch (error) {
       console.log(error);
     }
@@ -44,9 +46,10 @@ export const postattendancedata =
 
 export const getAttendanceById = (attendanceId) => async (dispatch) => {
   try {
-    const { data } = await api.getAttendanceById(attendanceId);
+    const { data, status } = await api.getAttendanceById(attendanceId);
     console.log("Data in actions : ", data);
     dispatch({ type: GET_ATTENDANCE, data });
+    return status;
   } catch (error) {
     console.log(error);
   }
@@ -54,7 +57,7 @@ export const getAttendanceById = (attendanceId) => async (dispatch) => {
 export const getDetailToAdmin =
   (course, section, semester, year, subject) => async (dispatch) => {
     try {
-      const { data } = await api.getDetailToAdmin(
+      const { data, status } = await api.getDetailToAdmin(
         course,
         section,
         semester,
@@ -63,15 +66,17 @@ export const getDetailToAdmin =
       );
       console.log("Data in actions : ", data);
       dispatch({ type: GET_DETAIL_TO_ADMIN, data });
+      return status;
     } catch (error) {
       console.log(error);
     }
   };
 export const fetchAllListToFaculty = (email) => async (dispatch) => {
   try {
-    const { data } = await api.fetchAllListToFaculty(email);
+    const { data, status } = await api.fetchAllListToFaculty(email);
     console.log("Data in actions : ", data);
     dispatch({ type: FETCH_LIST_TO_FACULTY, data });
+    return status;
   } catch (error) {
     console.log(error);
   }
@@ -79,18 +84,30 @@ export const fetchAllListToFaculty = (email) => async (dispatch) => {
 
 export const updateStudentData = (listingId, email) => async (dispatch) => {
   try {
-    const { data } = await api.updateStudentData(listingId, email);
+    const { data, status } = await api.updateStudentData(listingId, email);
     console.log("Data in actions : ", data);
     dispatch({ type: UPDATE_STUDENT, data });
+    return status;
   } catch (error) {
     console.log(error);
   }
 };
 export const expireRetrieveSubject = (listingId) => async (dispatch) => {
   try {
-    const { data } = await api.expireRetrieveSubject(listingId);
+    const { data, status } = await api.expireRetrieveSubject(listingId);
     console.log("Data in actions : ", data);
     dispatch({ type: EXPIRE_SUBJECT, data });
+    return status;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const updateTempTime = (listingId) => async (dispatch) => {
+  try {
+    const { data, status } = await api.updateTempTime(listingId);
+    console.log("Data in actions : ", data);
+    dispatch({ type: UPDATE_TIME, data });
+    return status;
   } catch (error) {
     console.log(error);
   }
@@ -115,9 +132,10 @@ export const resetStudent = () => async (dispatch) => {
 
 export const addCollege = (formData) => async (dispatch) => {
   try {
-    const { data } = await api.addCollege(formData);
+    const { data, status } = await api.addCollege(formData);
 
     dispatch({ type: ADD_COLLEGE, data });
+    return status;
   } catch (error) {
     console.log(error);
   }
@@ -125,21 +143,23 @@ export const addCollege = (formData) => async (dispatch) => {
 
 export const fetchAllCollege = () => async (dispatch) => {
   try {
-    const { data } = await api.fetchAllCollege();
+    const { data, status } = await api.fetchAllCollege();
     console.log("Data in actions : ", data);
     dispatch({ type: FETCH_ALL_COLLEGE, data });
+    return status;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 
 export const addInitialAdmin = (formedData, collegeId) => async (dispatch) => {
   try {
-    const { data } = await api.addInitialAdmin(formedData, collegeId);
+    const { data, status } = await api.addInitialAdmin(formedData, collegeId);
     console.log("Data in actions : ", data);
     dispatch({ type: ADD_INITIAL_ADMIN, data });
+    return status;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 
@@ -147,51 +167,58 @@ export const addInitialAdmin = (formedData, collegeId) => async (dispatch) => {
 
 export const signInFaculty = (formedData, collegeId) => async (dispatch) => {
   try {
-    const { data } = await api.signInFaculty(formedData, collegeId);
+    const { data, status } = await api.signInFaculty(formedData, collegeId);
     console.log("Data in actions : ", data);
-    dispatch({ type: SIGNIN_FACULTY, data });
+    if (status === 200) dispatch({ type: SIGNIN_FACULTY, data });
+    return { data, status };
   } catch (error) {
+    return error;
     console.log(error);
   }
 };
 export const signUpFaculty = (formedData, collegeId) => async () => {
   try {
-    const { data } = await api.signUpFaculty(formedData, collegeId);
+    const { data, status } = await api.signUpFaculty(formedData, collegeId);
     console.log("Data in actions : ", data);
+    return status;
   } catch (error) {
     console.log(error);
   }
 };
 export const removeFaculty = (email) => async () => {
   try {
-    const { data } = await api.removeFaculty(email);
+    const { data, status } = await api.removeFaculty(email);
     console.log("Data in actions : ", data);
+    return status;
   } catch (error) {
     console.log(error);
   }
 };
 export const getFaculty = (collegeId) => async (dispatch) => {
   try {
-    const { data } = await api.getFaculty(collegeId);
+    const { data, status } = await api.getFaculty(collegeId);
     console.log("Data in actions : ", data);
 
     dispatch({ type: GET_FACULTY, data });
+    return status;
   } catch (error) {
     console.log(error);
   }
 };
 export const makeAdmin = (email) => async () => {
   try {
-    const { data } = await api.makeAdmin(email);
+    const { data, status } = await api.makeAdmin(email);
     console.log("Data in actions : ", data);
+    return status;
   } catch (error) {
     console.log(error);
   }
 };
 export const removeAdmin = (email) => async () => {
   try {
-    const { data } = await api.removeAdmin(email);
+    const { data, status } = await api.removeAdmin(email);
     console.log("Data in actions : ", data);
+    return status;
   } catch (error) {
     console.log(error);
   }
@@ -200,18 +227,20 @@ export const removeAdmin = (email) => async () => {
 
 export const subjectCreate = (formData) => async () => {
   try {
-    const { data } = await api.subjectCreate(formData);
+    const { data, status } = await api.subjectCreate(formData);
     console.log("Data in actions : ", data);
+    return status;
   } catch (error) {
     console.log(error);
   }
 };
 export const getSubjects = (formData) => async (dispatch) => {
   try {
-    const { data } = await api.getSubjects(formData);
+    const { data, status } = await api.getSubjects(formData);
     console.log("Data in actions : ", data);
 
     dispatch({ type: SUBJECT_LIST, data });
+    return status;
   } catch (error) {
     console.log(error);
   }

@@ -11,6 +11,8 @@ import Navbar from "./components/Navbar/Navbar";
 import Auth from "./components/Auth/Auth";
 import College from "./components/component/College";
 import AdminSignup from "./components/component/AdminSignup";
+import VerificationMessage from "./components/VerificationMessage/VerificationMessage";
+import VerifyAccount from "./components/VerifyAccount/VerifyAccount";
 
 const App = () => {
   const collegeId = useSelector((state) => state.attendance.collegeId);
@@ -37,8 +39,11 @@ const App = () => {
         <Route path='/faculty' exact component={Faculty} />
         <Route path='/auth' exact component={Auth} />
         <Route path='/adminSignup' exact component={AdminSignup} />
+
         <Route path='/' exact component={College} />
       </Switch>
+      <Route path='/successmsg' exact component={VerificationMessage} />
+      <Route path='/verifyaccount/:token' exact component={VerifyAccount} />
     </Container>
   );
 };

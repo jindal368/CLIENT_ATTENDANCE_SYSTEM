@@ -32,7 +32,7 @@ const authReducer = (
       console.log("State : ", action);
       return { ...state, postAttendance: action.data };
     case actionType.GET_ATTENDANCE:
-      return { ...state, getAttendanceById: action.payload.data };
+      return { ...state, getAttendanceById: action?.data };
     case actionType.FETCH_LIST_TO_FACULTY:
       return {
         ...state,
@@ -43,7 +43,9 @@ const authReducer = (
     case actionType.UPDATE_STUDENT:
       return { ...state, updateStudent: action.payload.data };
     case actionType.EXPIRE_SUBJECT:
-      return { ...state, subjectListing: action.payload.data };
+      return { ...state, subjectListing: action?.data };
+    case actionType.UPDATE_TIME:
+      return { ...state, subjectListing: action?.data };
     case actionType.RESET_STUDENT:
       return [];
 

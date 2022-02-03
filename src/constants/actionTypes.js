@@ -12,6 +12,7 @@ export const GET_DETAIL_TO_ADMIN = "GET_DETAIL_TO_ADMIN";
 export const FETCH_LIST_TO_FACULTY = "FETCH_LIST_TO_FACULTY";
 export const UPDATE_STUDENT = "UPDATE_STUDENT";
 export const EXPIRE_SUBJECT = "EXPIRE_SUBJECT";
+export const UPDATE_TIME = "UPDATE_TIME";
 //COLLEGE .........
 
 export const ADD_COLLEGE = "ADD_COLLEGE";

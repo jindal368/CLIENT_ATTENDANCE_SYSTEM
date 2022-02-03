@@ -38,6 +38,8 @@ export const updateStudentData = (listingId, studentEmail) =>
 
 export const expireRetrieveSubject = (listingId) =>
   API.put(`/attendance/expiresubject?id=${listingId}`);
+export const updateTempTime = (listingId) =>
+  API.put(`/attendance/updatetemptime?id=${listingId}`);
 
 // college API
 
@@ -79,6 +81,11 @@ export const signUp = (formData, collegeId, latitude, longitude) =>
   API.post(
     `/student/signup?id=${collegeId}&latitude=${latitude}&longitude=${longitude}`,
     formData
+  );
+
+export const verificationOnEmail = (email, token, type) =>
+  API.post(
+    `/student/sendverificationonemail?email=${email}&token=${token}&type=${type}`
   );
 
 export const getDataToStudent = () => API.get(`/student/getdatatostudent`);

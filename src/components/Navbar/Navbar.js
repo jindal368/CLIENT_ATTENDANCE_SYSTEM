@@ -10,19 +10,28 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import decode from "jwt-decode";
-
+import { getCollegeData } from "../../api";
 import icon from "../../images/icon.png";
 import * as actionType from "../../constants/actionTypes";
 import useStyles from "./styles";
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const collegeId = useSelector((state) => state.attendance.collegeId);
+  const [collegeData, setCollegeData] = useState({});
   const dispatch = useDispatch();
+
   const location = useLocation();
   const history = useHistory();
   const classes = useStyles();
+
+  const getCollege = async (collegeId) => {
+    const { data } = await getCollegeData(collegeId);
+    console.log("Data : ", data);
+    setCollegeData(data);
+  };
 
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
@@ -42,6 +51,8 @@ const Navbar = () => {
     }
 
     setUser(JSON.parse(localStorage.getItem("profile")));
+    console.log("USER :::: ", user);
+    if (collegeId !== null && collegeId !== undefined) getCollege(collegeId);
   }, [location]);
 
   return (
@@ -81,14 +92,19 @@ const Navbar = () => {
             </Button>
           </div>
         ) : (
-          <Button
-            component={Link}
-            to='/auth'
-            variant='contained'
-            color='primary'
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+
+              color: "whitesmoke",
+              fontFamily: "fantasy",
+              fontSize: "2vh",
+            }}
           >
-            Sign In
-          </Button>
+            <h3>{collegeData?.collegeSchema?.name}</h3>
+          </div>
         )}
       </Toolbar>
     </AppBar>

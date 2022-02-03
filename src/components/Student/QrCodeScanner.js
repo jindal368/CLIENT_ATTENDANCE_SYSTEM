@@ -16,18 +16,28 @@ import useStyles from "./styles";
 import ReactCardFlip from "react-card-flip";
 import qrImage from "../../images/qrcode.png";
 import QrReader from "react-qr-scanner";
+import { useAlert } from "react-alert";
 import { updateStudentData } from "../../actions/attendance";
 
 const QrCodeScanner = () => {
   const [scanned, setScanned] = useState(0);
   const [isFlip, setIsFlip] = useState(false);
+  const [cameraMode, setCameraMode] = useState(false);
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
   const [id, setId] = useState("");
+  const alert = useAlert();
 
   var handleResponse = (res) => {
+    console.log("response : ", res?.text?.slice(25, 38));
     console.log("response : ", res);
+    if (res?.text?.slice(25, 38) < Date.now()) {
+      alert.show("Code Corrupted");
+      setScanned(2);
+      fliphandler();
+      return false;
+    }
     // const data = {
     //   _id: res?.text,
     //   data: user,
@@ -35,7 +45,9 @@ const QrCodeScanner = () => {
     return res?.text ? (
       <div>
         <div>
-          {dispatch(updateStudentData(res?.text, user?.result?.email))
+          {dispatch(
+            updateStudentData(res?.text?.slice(0, 24), user?.result?.email)
+          )
             .then(() => {
               setScanned(1);
               fliphandler();
@@ -109,13 +121,17 @@ const QrCodeScanner = () => {
         >
           {isFlip ? (
             <QrReader
-              delay={10000}
+              delay={1000}
               style={{ width: "inherit" }}
               onError={() => setScanned(2)}
               onScan={(res) => handleResponse(res)}
+              facingMode={cameraMode ? "environment" : "user"}
             />
           ) : null}
         </Paper>
+        <button onClick={() => setCameraMode(!cameraMode)}>{`Change To ${
+          cameraMode ? "front" : "rear"
+        }`}</button>
       </div>
     </ReactCardFlip>
   );

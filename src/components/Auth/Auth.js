@@ -2,6 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { css } from "@emotion/react";
+import { useAlert } from "react-alert";
+import BounceLoader from "react-spinners/BounceLoader";
+
 import {
   Avatar,
   Button,
@@ -23,22 +27,26 @@ import { signInFaculty } from "../../actions/attendance";
 import useStyles from "./styles";
 import Input from "./Input";
 import { Redirect, useHistory } from "react-router-dom";
-
+import VerificationMessage from "../VerificationMessage/VerificationMessage";
+import { getCollegeData } from "../../api";
 // const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
 const SignUp = () => {
   const [value, setValue] = React.useState("student");
   const [form, setForm] = useState({});
   const [isSignup, setIsSignup] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
+  const alert = useAlert();
   // const user = useSelector((state) => state.auth);
   const user = JSON.parse(localStorage.getItem("profile"));
   const designation = JSON.parse(localStorage.getItem("designation"));
-  const collegeId = useSelector((state) => state.attendance.collegeId);
+  const collegeId = JSON.parse(localStorage.getItem("collegeId"));
+  const [collegeData, setCollegeData] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const formRef = useRef();
   const handleShowPassword = () => setShowPassword(!showPassword);
@@ -53,10 +61,16 @@ const SignUp = () => {
       console.log("Longitude : ", longitude);
     });
   }
+  const getCollege = async (collegeId) => {
+    const { data } = await getCollegeData(collegeId);
+    console.log("Data : ", data);
+    setCollegeData(data);
+  };
 
   useEffect(() => {
     getLocation();
-  }, dispatch);
+    getCollege(collegeId);
+  }, []);
 
   const switchMode = () => {
     setForm({});
@@ -64,17 +78,52 @@ const SignUp = () => {
     setShowPassword(false);
   };
 
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (value === "faculty") {
-      dispatch(signInFaculty(form, collegeId));
+      setLoading(true);
+      dispatch(signInFaculty(form, collegeId))
+        .then((res) => {
+          console.log(res);
+          if (res.status !== 200) alert.show(`${res.data.message}`);
+          setLoading(false);
+          return false;
+        })
+        .catch((err) => alert.show(err));
     } else {
       if (isSignup) {
-        dispatch(signup(form, collegeId, latitude, longitude));
+        setLoading(true);
+        dispatch(signup(form, collegeId, latitude, longitude))
+          .then((res) => {
+            console.log(res);
+            if (res.status !== 200) {
+              alert.show(`${res.data.message}`);
+              setLoading(false);
+            } else {
+              history.push("/successmsg");
+            }
+          })
+          .catch((err) => alert.show(err));
       } else {
+        setLoading(true);
         dispatch(signin(form, latitude, longitude))
-          .then(() => history.push("/student"))
-          .catch((err) => console.log(err));
+          .then((res) => {
+            console.log(res);
+            if (res.status !== 200) {
+              alert.show(`${res.data.message}`);
+              setLoading(false);
+              return false;
+            }
+            setLoading(false);
+            history.push("/student");
+          })
+          .catch((err) => alert.show(err));
       }
     }
   };
@@ -85,6 +134,7 @@ const SignUp = () => {
 
     try {
       dispatch({ type: AUTH, data: { result, token } });
+      history.push("/student");
     } catch (error) {
       console.log(error);
     }
@@ -102,7 +152,17 @@ const SignUp = () => {
     setForm({});
   };
 
-  return (
+  return loading ? (
+    <BounceLoader color='red' loading={loading} css={override} size={150} />
+  ) : collegeId === null ? (
+    <Redirect to='/' />
+  ) : user !== null ? (
+    designation === "faculty" ? (
+      <Redirect to='/faculty' />
+    ) : (
+      <Redirect to='/student' />
+    )
+  ) : (
     <div>
       <Container component='main' maxWidth='xs'>
         <AppBar position='static' style={{ marginTop: "20px" }}>

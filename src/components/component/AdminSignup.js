@@ -8,26 +8,44 @@ import useStyles from "./styles";
 import Input from "../Auth/Input";
 import { useHistory } from "react-router-dom";
 import { addInitialAdmin } from "../../actions/attendance";
+import { css } from "@emotion/react";
+import { useAlert } from "react-alert";
+import BounceLoader from "react-spinners/BounceLoader";
 
 const AdminSignup = () => {
   const [form, setForm] = useState({});
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const collegeId = JSON.parse(localStorage.getItem("collegeId"));
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const alert = useAlert();
   console.log("Admin Signup Componenet");
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addInitialAdmin(form, collegeId, history));
+    setLoading(true);
+    dispatch(addInitialAdmin(form, collegeId, history))
+      .then((res) => {
+        console.log(res);
+        if (res !== 200) alert.show(`Server Error ${res}`);
+        setLoading(false);
+      })
+      .catch((err) => alert.show(err));
   };
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  return (
+  return loading ? (
+    <BounceLoader color='red' loading={loading} css={override} size={150} />
+  ) : (
     <Container component='main' maxWidth='xs'>
       <Paper
         className={classes.paper}

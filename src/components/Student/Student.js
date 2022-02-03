@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 import StudentReport from "./StudentReport";
 import QrCodeScanner from "./QrCodeScanner";
+import VerifyMessage from "../VerifyMessage/VerifyMessage";
 
 export default function Student() {
   const classes = useStyles();
@@ -16,7 +17,13 @@ export default function Student() {
   const collegeId = JSON.parse(localStorage.getItem("collegeId"));
   const designation = JSON.parse(localStorage.getItem("designation"));
   console.log("User : ", user);
-  return (
+  return collegeId === undefined ? (
+    <Redirect to='/' />
+  ) : user === undefined ? (
+    <Redirect to='/auth' />
+  ) : designation === "faculty" ? (
+    <Redirect to='/faculty' />
+  ) : (
     <div>
       <AppBar
         className={classes.brandContainer}
@@ -36,8 +43,14 @@ export default function Student() {
       <br />
       <br />
       <div className={classes.contain}>
-        <QrCodeScanner />
-        <StudentReport />
+        {user?.result?.isVerified ? (
+          <>
+            <QrCodeScanner />
+            <StudentReport />
+          </>
+        ) : (
+          <VerifyMessage type={"student"} />
+        )}
       </div>
     </div>
   );

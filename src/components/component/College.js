@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { css } from "@emotion/react";
+import { useAlert } from "react-alert";
+import BounceLoader from "react-spinners/BounceLoader";
 import BusinessRoundedIcon from "@material-ui/icons/BusinessRounded";
 import {
   Button,
@@ -29,19 +32,40 @@ const College = () => {
   const [value, setValue] = useState("college");
   const [collegeSelect, setCollegeSelect] = useState("");
   const [isError, setIsError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const alert = useAlert();
   const collegelist = useSelector((state) => state.attendance.collegeList);
   const collegeId = JSON.parse(localStorage.getItem("collegeId"));
   const designation = JSON.parse(localStorage.getItem("designation"));
   const user = JSON.parse(localStorage.getItem("profile"));
   useEffect(() => {
-    dispatch(fetchAllCollege());
+    setLoading(true);
+    dispatch(fetchAllCollege())
+      .then((res) => {
+        console.log("REs : ", res);
+        if (res != 200) alert.show(`Server Error ${res}`);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert.show("err");
+      });
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addCollege(form, history));
+    setLoading(true);
+    dispatch(addCollege(form, history))
+      .then((res) => {
+        if (res != 200) alert.show(`Server Error ${res}`);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert.show(err);
+      });
   };
 
   const handleCollege = () => {
@@ -49,12 +73,9 @@ const College = () => {
     if (collegeSelect === "") {
       setIsError(true);
     } else {
-      try {
-        dispatch({ type: SET_COLLEGE_ID, collegeSelect });
-        history.push("/");
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch({ type: SET_COLLEGE_ID, collegeSelect });
+
+      history.push("/");
     }
   };
 
@@ -65,8 +86,15 @@ const College = () => {
     setValue(newValue);
     setForm({});
   };
+  const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+  `;
 
-  return (
+  return loading ? (
+    <BounceLoader color='red' loading={loading} css={override} size={150} />
+  ) : (
     <div>
       <Container component='main' maxWidth='xs'>
         <AppBar position='static' style={{ marginTop: "20px" }}>
